@@ -2396,58 +2396,82 @@
                 <h2 class="modal-title">Edit Session</h2>
                 <button class="modal-close" onclick="closeEditModal()">×</button>
             </div>
+            <p style="color: var(--light-blue); margin-bottom: 20px; font-size: 0.9rem;">Adjust your session's training minutes and best juggling streak</p>
+            
             <div class="slider-container">
                 <div class="slider-header">
                     <span class="slider-label">⚽ Ball Mastery</span>
                     <span class="slider-value" id="editBallMasteryValue">0</span>
                 </div>
-                <input type="range" id="editBallMastery" min="0" max="60" value="0" 
-                       oninput="updateSliderValue('editBallMastery', this.value)">
+                <input type="range" id="editBallMastery" min="0" max="30" value="0" 
+                       oninput="updateSliderValue('editBallMastery', this.value); updateEditTotal()">
                 <div class="slider-markers">
                     <span>0 min</span>
+                    <span>15 min</span>
                     <span>30 min</span>
-                    <span>60 min</span>
                 </div>
             </div>
+            
             <div class="slider-container">
                 <div class="slider-header">
-                    <span class="slider-label">⏱️ Juggling Time</span>
-                    <span class="slider-value" id="editJugglingValue">0</span>
-                </div>
-                <input type="range" id="editJuggling" min="0" max="60" value="0" 
-                       oninput="updateSliderValue('editJuggling', this.value)">
-                <div class="slider-markers">
-                    <span>0 min</span>
-                    <span>30 min</span>
-                    <span>60 min</span>
-                </div>
-            </div>
-            <div class="slider-container">
-                <div class="slider-header">
-                    <span class="slider-label">🎯 Max Juggling Streak</span>
-                    <span class="slider-value" id="editJugglingStreakValue">0</span>
-                </div>
-                <input type="range" id="editJugglingStreak" min="0" max="200" value="0" step="5"
-                       oninput="updateSliderValue('editJugglingStreak', this.value)">
-                <div class="slider-markers">
-                    <span>0 touches</span>
-                    <span>100 touches</span>
-                    <span>200 touches</span>
-                </div>
-            </div>
-            <div class="slider-container">
-                <div class="slider-header">
-                    <span class="slider-label">🧱 Wall Passing</span>
+                    <span class="slider-label">🎯 Wall Passing</span>
                     <span class="slider-value" id="editWallPassingValue">0</span>
                 </div>
-                <input type="range" id="editWallPassing" min="0" max="60" value="0" 
-                       oninput="updateSliderValue('editWallPassing', this.value)">
+                <input type="range" id="editWallPassing" min="0" max="30" value="0" 
+                       oninput="updateSliderValue('editWallPassing', this.value); updateEditTotal()">
                 <div class="slider-markers">
                     <span>0 min</span>
+                    <span>15 min</span>
                     <span>30 min</span>
-                    <span>60 min</span>
                 </div>
             </div>
+            
+            <div class="slider-container">
+                <div class="slider-header">
+                    <span class="slider-label">🤹 Juggling</span>
+                    <span class="slider-value" id="editJugglingValue">0</span>
+                </div>
+                <input type="range" id="editJuggling" min="0" max="30" value="0" 
+                       oninput="updateSliderValue('editJuggling', this.value); updateEditTotal()">
+                <div class="slider-markers">
+                    <span>0 min</span>
+                    <span>15 min</span>
+                    <span>30 min</span>
+                </div>
+            </div>
+            
+            <div class="slider-container">
+                <div class="slider-header">
+                    <span class="slider-label">⭐ Bonus Training</span>
+                    <span class="slider-value" id="editBonusValue">0</span>
+                </div>
+                <input type="range" id="editBonus" min="0" max="30" value="0" 
+                       oninput="updateSliderValue('editBonus', this.value); updateEditTotal()">
+                <div class="slider-markers">
+                    <span>0 min</span>
+                    <span>15 min</span>
+                    <span>30 min</span>
+                </div>
+            </div>
+            
+            <div style="background: rgba(77, 166, 255, 0.1); border: 2px solid var(--light-blue); border-radius: 8px; padding: 12px; margin-bottom: 20px; text-align: center;">
+                <span style="color: var(--bright-yellow); font-weight: 700; font-size: 1.1rem;">Total: <span id="editTotalDisplay">0</span> minutes</span>
+            </div>
+            
+            <div class="slider-container">
+                <div class="slider-header">
+                    <span class="slider-label">🏆 Best Juggle Streak</span>
+                    <span class="slider-value" id="editJugglingStreakValue">0</span>
+                </div>
+                <input type="range" id="editJugglingStreak" min="0" max="1000" value="0"
+                       oninput="updateSliderValue('editJugglingStreak', this.value)">
+                <div class="slider-markers">
+                    <span>0</span>
+                    <span>500</span>
+                    <span>1000</span>
+                </div>
+            </div>
+            
             <div class="modal-buttons">
                 <button onclick="saveEditedSession()">Save Changes</button>
                 <button class="logout-btn" onclick="closeEditModal()" style="margin-top: 0;">Cancel</button>
@@ -3609,48 +3633,76 @@
             
             document.getElementById('prevSessionDate').textContent = dateText;
             
-            // Calculate stats
+            // Check if session has edited minutes (from edit modal), otherwise calculate from structure
             let ballMasteryMins = 0;
-            let completedSkills = 0;
-            
-            if (lastSession.ballMastery && typeof lastSession.ballMastery === 'object') {
-                const firstSkill = Object.values(lastSession.ballMastery)[0];
-                if (firstSkill && typeof firstSkill === 'object') {
-                    // New format with reps
-                    Object.values(lastSession.ballMastery).forEach(skill => {
-                        if (skill.completed) {
-                            completedSkills++;
-                            ballMasteryMins += 2; // 2 min per skill
-                        }
-                    });
-                } else {
-                    // Old format (number)
-                    ballMasteryMins = lastSession.ballMastery || 0;
-                }
-            } else {
-                ballMasteryMins = lastSession.ballMastery || 0;
+            if (lastSession.editedBallMasteryMins !== undefined) {
+                ballMasteryMins = lastSession.editedBallMasteryMins;
+            } else if (lastSession.ballMastery && typeof lastSession.ballMastery === 'object') {
+                Object.values(lastSession.ballMastery).forEach(skill => {
+                    if (skill && skill.completed) {
+                        ballMasteryMins += 2; // 2 min per completed skill
+                    }
+                });
             }
             
-            const jugglingMins = lastSession.juggling || 0;
-            const wallPassingMins = lastSession.wallPassing || 0;
-            const jugglingStreak = lastSession.jugglingStreak || 0;
+            // Calculate wall passing minutes
+            let wallPassingMins = 0;
+            if (lastSession.editedWallPassingMins !== undefined) {
+                wallPassingMins = lastSession.editedWallPassingMins;
+            } else if (lastSession.wallPassing && typeof lastSession.wallPassing === 'object') {
+                Object.values(lastSession.wallPassing).forEach(exercise => {
+                    if (exercise && exercise.completed) {
+                        wallPassingMins += 2; // 2 min per completed exercise
+                    }
+                });
+            }
+            
+            // Calculate juggling minutes
+            let jugglingMins = 0;
+            if (lastSession.editedJugglingMins !== undefined) {
+                jugglingMins = lastSession.editedJugglingMins;
+            } else {
+                if (lastSession.jugglingExercises && typeof lastSession.jugglingExercises === 'object') {
+                    Object.values(lastSession.jugglingExercises).forEach(exercise => {
+                        if (exercise && exercise.completed) {
+                            jugglingMins += 2; // 2 min per completed exercise
+                        }
+                    });
+                }
+                // Add freestyle juggling if present
+                if (lastSession.freestyleJuggling) {
+                    jugglingMins += lastSession.freestyleJuggling;
+                }
+            }
+            
+            // Get juggling streak
+            const jugglingStreak = lastSession.juggling || lastSession.jugglingStreak || 0;
+            
+            // Get bonus minutes if present
+            const bonusMins = lastSession.bonusMinutes || 0;
             
             // Create stats HTML
             const statsHTML = `
                 <div class="prev-stat ${ballMasteryMins >= 12 ? 'complete' : ''}">
-                    <span class="prev-stat-label">Ball Mastery</span>
+                    <span class="prev-stat-label">⚽ Ball Mastery</span>
                     <span class="prev-stat-value">${ballMasteryMins} min</span>
                 </div>
-                <div class="prev-stat ${jugglingMins >= 5 ? 'complete' : ''}">
-                    <span class="prev-stat-label">Juggling</span>
-                    <span class="prev-stat-value">${jugglingMins} min</span>
-                </div>
-                <div class="prev-stat ${wallPassingMins >= 5 ? 'complete' : ''}">
-                    <span class="prev-stat-label">Wall Passing</span>
+                <div class="prev-stat ${wallPassingMins >= 12 ? 'complete' : ''}">
+                    <span class="prev-stat-label">🎯 Wall Passing</span>
                     <span class="prev-stat-value">${wallPassingMins} min</span>
                 </div>
+                <div class="prev-stat ${jugglingMins >= 10 ? 'complete' : ''}">
+                    <span class="prev-stat-label">🤹 Juggling</span>
+                    <span class="prev-stat-value">${jugglingMins} min</span>
+                </div>
+                ${bonusMins > 0 ? `
                 <div class="prev-stat">
-                    <span class="prev-stat-label">Best Streak</span>
+                    <span class="prev-stat-label">⭐ Bonus</span>
+                    <span class="prev-stat-value">${bonusMins} min</span>
+                </div>
+                ` : ''}
+                <div class="prev-stat">
+                    <span class="prev-stat-label">🏆 Best Juggle Streak</span>
                     <span class="prev-stat-value">${jugglingStreak}</span>
                 </div>
             `;
@@ -4472,21 +4524,75 @@
                 
                 editingSessionIndex = sessionIndex;
                 
+                // Calculate ball mastery minutes from structure
+                let ballMasteryMins = 0;
+                if (session.ballMastery && typeof session.ballMastery === 'object') {
+                    Object.values(session.ballMastery).forEach(skill => {
+                        if (skill && skill.completed) {
+                            ballMasteryMins += 2;
+                        }
+                    });
+                }
+                
+                // Calculate wall passing minutes from structure
+                let wallPassingMins = 0;
+                if (session.wallPassing && typeof session.wallPassing === 'object') {
+                    Object.values(session.wallPassing).forEach(exercise => {
+                        if (exercise && exercise.completed) {
+                            wallPassingMins += 2;
+                        }
+                    });
+                }
+                
+                // Calculate juggling minutes from structure
+                let jugglingMins = 0;
+                if (session.jugglingExercises && typeof session.jugglingExercises === 'object') {
+                    Object.values(session.jugglingExercises).forEach(exercise => {
+                        if (exercise && exercise.completed) {
+                            jugglingMins += 2;
+                        }
+                    });
+                }
+                // Add freestyle juggling
+                if (session.freestyleJuggling) {
+                    jugglingMins += session.freestyleJuggling;
+                }
+                
+                // Get bonus minutes
+                const bonusMins = session.bonusMinutes || 0;
+                
+                // Get juggling streak
+                const jugglingStreak = session.juggling || session.jugglingStreak || 0;
+                
                 // Populate modal fields
-                document.getElementById('editBallMastery').value = session.ballMastery;
-                document.getElementById('editJuggling').value = session.juggling;
-                document.getElementById('editJugglingStreak').value = session.jugglingStreak;
-                document.getElementById('editWallPassing').value = session.wallPassing;
+                document.getElementById('editBallMastery').value = ballMasteryMins;
+                document.getElementById('editWallPassing').value = wallPassingMins;
+                document.getElementById('editJuggling').value = jugglingMins;
+                document.getElementById('editBonus').value = bonusMins;
+                document.getElementById('editJugglingStreak').value = jugglingStreak;
                 
                 // Update slider displays
-                updateSliderValue('editBallMastery', session.ballMastery);
-                updateSliderValue('editJuggling', session.juggling);
-                updateSliderValue('editJugglingStreak', session.jugglingStreak);
-                updateSliderValue('editWallPassing', session.wallPassing);
+                updateSliderValue('editBallMastery', ballMasteryMins);
+                updateSliderValue('editWallPassing', wallPassingMins);
+                updateSliderValue('editJuggling', jugglingMins);
+                updateSliderValue('editBonus', bonusMins);
+                updateSliderValue('editJugglingStreak', jugglingStreak);
+                
+                // Update total display
+                updateEditTotal();
                 
                 // Show modal
                 document.getElementById('editModal').classList.add('active');
             });
+        }
+        
+        function updateEditTotal() {
+            const ballMastery = parseInt(document.getElementById('editBallMastery').value) || 0;
+            const wallPassing = parseInt(document.getElementById('editWallPassing').value) || 0;
+            const juggling = parseInt(document.getElementById('editJuggling').value) || 0;
+            const bonus = parseInt(document.getElementById('editBonus').value) || 0;
+            const total = ballMastery + wallPassing + juggling + bonus;
+            document.getElementById('editTotalDisplay').textContent = total;
         }
 
         function closeEditModal() {
@@ -4497,44 +4603,44 @@
         function saveEditedSession() {
             if (editingSessionIndex === null) return;
             
-            const ballMastery = parseInt(document.getElementById('editBallMastery').value);
-            const juggling = parseInt(document.getElementById('editJuggling').value);
-            const jugglingStreak = parseInt(document.getElementById('editJugglingStreak').value);
-            const wallPassing = parseInt(document.getElementById('editWallPassing').value);
+            const ballMasteryMins = parseInt(document.getElementById('editBallMastery').value) || 0;
+            const wallPassingMins = parseInt(document.getElementById('editWallPassing').value) || 0;
+            const jugglingMins = parseInt(document.getElementById('editJuggling').value) || 0;
+            const bonusMins = parseInt(document.getElementById('editBonus').value) || 0;
+            const jugglingStreak = parseInt(document.getElementById('editJugglingStreak').value) || 0;
             
-            if (!ballMastery || !juggling || !jugglingStreak || !wallPassing) {
-                alert('Please fill in all fields!');
-                return;
-            }
-            
-            const totalMinutes = ballMastery + juggling + wallPassing;
-            
-            if (totalMinutes < 20) {
-                alert('Training sessions should be at least 20 minutes total. Keep pushing! 💪');
-                return;
-            }
+            const newTotalMinutes = ballMasteryMins + wallPassingMins + jugglingMins + bonusMins;
 
             getPlayers((players) => {
                 const player = players[currentPlayer];
                 const session = player.sessions[editingSessionIndex];
                 
-                // Calculate the difference in minutes for updating total
-                const oldMinutes = session.ballMastery + session.juggling + session.wallPassing;
-                const newMinutes = totalMinutes;
-                const minutesDiff = newMinutes - oldMinutes;
+                // Calculate the difference in minutes for updating player total
+                const oldMinutes = session.totalMinutes || 0;
+                const minutesDiff = newTotalMinutes - oldMinutes;
                 
-                // Update session
-                session.ballMastery = ballMastery;
-                session.juggling = juggling;
-                session.jugglingStreak = jugglingStreak;
-                session.wallPassing = wallPassing;
+                // Store the edited minutes in a simple format for display
+                // We'll store them as simple minute values rather than trying to reconstruct the complex exercise structure
+                session.editedBallMasteryMins = ballMasteryMins;
+                session.editedWallPassingMins = wallPassingMins;
+                session.editedJugglingMins = jugglingMins;
+                session.bonusMinutes = bonusMins;
+                
+                // Update total minutes
+                session.totalMinutes = newTotalMinutes;
+                session.juggling = jugglingStreak;
                 
                 // Update player totals
                 player.totalMinutes += minutesDiff;
                 
-                // Update max juggling if needed
-                const allJugglingStreaks = player.sessions.map(s => s.jugglingStreak);
-                player.maxJuggling = Math.max(...allJugglingStreaks);
+                // Update max juggling if this is now the highest
+                if (jugglingStreak > player.maxJuggling) {
+                    player.maxJuggling = jugglingStreak;
+                }
+                
+                // Recalculate max juggling from all sessions to ensure accuracy
+                const allJugglingStreaks = player.sessions.map(s => s.juggling || s.jugglingStreak || 0);
+                player.maxJuggling = Math.max(...allJugglingStreaks, 0);
                 
                 savePlayers(players, () => {
                     showToast('Session updated! ✅');
