@@ -161,11 +161,6 @@
             gap: 10px;
         }
 
-        .card h2::before {
-            content: '⚽';
-            font-size: 1.5rem;
-        }
-
         .input-group {
             margin-bottom: 20px;
         }
@@ -197,6 +192,93 @@
             border-color: var(--light-blue);
             box-shadow: 0 0 20px var(--shadow-glow);
             transform: translateY(-2px);
+        }
+
+        /* Slider Styles */
+        .slider-container {
+            margin-bottom: 25px;
+        }
+
+        .slider-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+
+        .slider-label {
+            color: var(--light-blue);
+            font-weight: 600;
+            text-transform: uppercase;
+            font-size: 0.9rem;
+            letter-spacing: 1px;
+        }
+
+        .slider-value {
+            font-family: 'Bebas Neue', cursive;
+            font-size: 2.5rem;
+            color: var(--bright-yellow);
+            text-shadow: 0 0 10px rgba(255, 214, 0, 0.5);
+            min-width: 100px;
+            text-align: right;
+        }
+
+        input[type="range"] {
+            -webkit-appearance: none;
+            width: 100%;
+            height: 12px;
+            border-radius: 10px;
+            background: linear-gradient(90deg, var(--field-green), var(--light-blue));
+            outline: none;
+            opacity: 0.9;
+            transition: opacity 0.3s;
+        }
+
+        input[type="range"]:hover {
+            opacity: 1;
+        }
+
+        input[type="range"]::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            appearance: none;
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, var(--bright-yellow), var(--orange-accent));
+            cursor: pointer;
+            box-shadow: 0 5px 15px rgba(255, 214, 0, 0.6);
+            border: 3px solid var(--deep-night);
+            transition: all 0.3s;
+        }
+
+        input[type="range"]::-webkit-slider-thumb:hover {
+            transform: scale(1.2);
+            box-shadow: 0 8px 20px rgba(255, 214, 0, 0.8);
+        }
+
+        input[type="range"]::-moz-range-thumb {
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, var(--bright-yellow), var(--orange-accent));
+            cursor: pointer;
+            box-shadow: 0 5px 15px rgba(255, 214, 0, 0.6);
+            border: 3px solid var(--deep-night);
+            transition: all 0.3s;
+        }
+
+        input[type="range"]::-moz-range-thumb:hover {
+            transform: scale(1.2);
+            box-shadow: 0 8px 20px rgba(255, 214, 0, 0.8);
+        }
+
+        .slider-markers {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 8px;
+            font-size: 0.85rem;
+            color: rgba(77, 166, 255, 0.6);
+            font-weight: 600;
         }
 
         button {
@@ -919,6 +1001,638 @@
             }
         }
 
+        /* Option 3: Super Clean Slider Skills */
+        .skill-item-slider {
+            background: var(--deep-night);
+            border: 2px solid rgba(77, 166, 255, 0.3);
+            border-radius: 12px;
+            padding: 12px 15px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            transition: all 0.3s;
+        }
+
+        .skill-item-slider.completed {
+            border-color: #00ff88;
+            background: rgba(0, 255, 136, 0.08);
+        }
+
+        .skill-check-slider {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            cursor: pointer;
+            user-select: none;
+            flex-shrink: 0;
+            min-width: 140px;
+        }
+
+        .skill-checkbox-slider {
+            width: 24px;
+            height: 24px;
+            border: 2.5px solid var(--light-blue);
+            border-radius: 6px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+            transition: all 0.25s;
+        }
+
+        .skill-check-slider:active .skill-checkbox-slider {
+            transform: scale(0.9);
+        }
+
+        .skill-item-slider.completed .skill-checkbox-slider {
+            background: #00ff88;
+            border-color: #00ff88;
+        }
+
+        .skill-checkbox-slider::after {
+            content: '✓';
+            font-size: 16px;
+            font-weight: bold;
+            color: var(--deep-night);
+            opacity: 0;
+            transform: scale(0);
+            transition: all 0.2s;
+        }
+
+        .skill-item-slider.completed .skill-checkbox-slider::after {
+            opacity: 1;
+            transform: scale(1);
+        }
+
+        .skill-name-slider {
+            font-weight: 600;
+            font-size: 0.95rem;
+            color: var(--text-light);
+        }
+
+        .skill-slider-container {
+            flex: 1;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .skill-slider {
+            flex: 1;
+            -webkit-appearance: none;
+            height: 8px;
+            border-radius: 6px;
+            background: linear-gradient(90deg, var(--field-green) 0%, var(--light-blue) 100%);
+            outline: none;
+            opacity: 0.85;
+            transition: opacity 0.2s;
+        }
+
+        .skill-slider:hover {
+            opacity: 1;
+        }
+
+        .skill-slider::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            appearance: none;
+            width: 22px;
+            height: 22px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, var(--bright-yellow), var(--orange-accent));
+            cursor: pointer;
+            box-shadow: 0 3px 10px rgba(255, 214, 0, 0.5);
+            border: 2px solid var(--deep-night);
+            transition: all 0.2s;
+        }
+
+        .skill-slider::-webkit-slider-thumb:hover {
+            transform: scale(1.15);
+            box-shadow: 0 5px 15px rgba(255, 214, 0, 0.7);
+        }
+
+        .skill-slider::-webkit-slider-thumb:active {
+            transform: scale(1.05);
+        }
+
+        .skill-slider::-moz-range-thumb {
+            width: 22px;
+            height: 22px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, var(--bright-yellow), var(--orange-accent));
+            cursor: pointer;
+            box-shadow: 0 3px 10px rgba(255, 214, 0, 0.5);
+            border: 2px solid var(--deep-night);
+            transition: all 0.2s;
+        }
+
+        .skill-slider::-moz-range-thumb:hover {
+            transform: scale(1.15);
+            box-shadow: 0 5px 15px rgba(255, 214, 0, 0.7);
+        }
+
+        .skill-slider::-moz-range-thumb:active {
+            transform: scale(1.05);
+        }
+
+        .skill-reps-display {
+            font-family: 'Bebas Neue', cursive;
+            font-size: 1.4rem;
+            color: var(--bright-yellow);
+            min-width: 35px;
+            text-align: right;
+            text-shadow: 0 0 8px rgba(255, 214, 0, 0.4);
+        }
+
+        /* Simplified Ball Mastery Styles */
+        .big-completion-btn {
+            width: 100%;
+            padding: 20px;
+            background: linear-gradient(135deg, var(--field-green), #0db84f);
+            border: 3px solid var(--bright-yellow);
+            border-radius: 15px;
+            color: white;
+            font-family: 'Bebas Neue', cursive;
+            font-size: 1.6rem;
+            letter-spacing: 2px;
+            cursor: pointer;
+            transition: all 0.3s;
+            box-shadow: 0 5px 25px rgba(10, 143, 62, 0.4);
+            margin-bottom: 15px;
+        }
+
+        .big-completion-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 30px rgba(10, 143, 62, 0.6);
+        }
+
+        .big-completion-btn.selected {
+            background: linear-gradient(135deg, var(--bright-yellow), var(--orange-accent));
+            border-color: var(--field-green);
+            color: var(--deep-night);
+        }
+
+        .simple-checkbox-item {
+            background: rgba(0, 8, 20, 0.6);
+            border: 2px solid rgba(77, 166, 255, 0.2);
+            border-radius: 10px;
+            padding: 12px 15px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            cursor: pointer;
+            transition: all 0.3s;
+            user-select: none;
+        }
+
+        .simple-checkbox-item:hover {
+            border-color: var(--light-blue);
+            background: rgba(0, 8, 20, 0.8);
+        }
+
+        .simple-checkbox-item.checked {
+            border-color: var(--field-green);
+            background: rgba(10, 143, 62, 0.15);
+        }
+
+        .simple-checkbox {
+            width: 22px;
+            height: 22px;
+            border: 2.5px solid var(--light-blue);
+            border-radius: 6px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+            transition: all 0.25s;
+            position: relative;
+        }
+
+        .simple-checkbox-item.checked .simple-checkbox {
+            background: var(--field-green);
+            border-color: var(--field-green);
+        }
+
+        .simple-checkbox::after {
+            content: '✓';
+            font-size: 14px;
+            font-weight: bold;
+            color: white;
+            opacity: 0;
+            transform: scale(0);
+            transition: all 0.2s;
+        }
+
+        .simple-checkbox-item.checked .simple-checkbox::after {
+            opacity: 1;
+            transform: scale(1);
+        }
+
+        .simple-checkbox-item span {
+            font-size: 0.95rem;
+            color: var(--text-light);
+            flex: 1;
+        }
+
+        .simple-checkbox-item.checked span {
+            color: var(--bright-yellow);
+            font-weight: 600;
+        }
+
+        /* Collapsible Section */
+        .collapsible-header:hover {
+            border-color: var(--light-blue) !important;
+            background: rgba(0, 8, 20, 0.8) !important;
+        }
+
+        /* Mobile optimization */
+        @media (max-width: 768px) {
+            .skill-check-slider {
+                min-width: 120px;
+            }
+            
+            .skill-name-slider {
+                font-size: 0.9rem;
+            }
+            
+            .skill-slider {
+                height: 10px; /* Slightly thicker for easier mobile interaction */
+            }
+            
+            .skill-slider::-webkit-slider-thumb {
+                width: 26px; /* Bigger thumb for mobile */
+                height: 26px;
+            }
+            
+            .skill-slider::-moz-range-thumb {
+                width: 26px;
+                height: 26px;
+            }
+            
+            .skill-reps-display {
+                font-size: 1.3rem;
+                min-width: 30px;
+            }
+        }
+
+        /* Timed Skill Styles with Rep Tracking */
+        .skill-item-timed {
+            background: var(--deep-night);
+            border: 2px solid rgba(77, 166, 255, 0.3);
+            border-radius: 12px;
+            padding: 15px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 15px;
+            transition: all 0.3s;
+        }
+
+        .skill-item-timed.completed {
+            border-color: #00ff88;
+            background: rgba(0, 255, 136, 0.1);
+        }
+
+        .skill-header-timed {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            cursor: pointer;
+            user-select: none;
+            flex: 1;
+        }
+
+        .skill-header-timed:hover .skill-checkbox-timed {
+            border-color: var(--light-blue);
+            transform: scale(1.1);
+        }
+
+        .skill-checkbox-timed {
+            width: 28px;
+            height: 28px;
+            border: 3px solid var(--light-blue);
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+            transition: all 0.3s;
+        }
+
+        .skill-item-timed.completed .skill-checkbox-timed {
+            background: #00ff88;
+            border-color: #00ff88;
+        }
+
+        .skill-checkbox-timed::after {
+            content: '✓';
+            font-size: 18px;
+            font-weight: bold;
+            color: var(--deep-night);
+            opacity: 0;
+            transform: scale(0);
+            transition: all 0.2s;
+        }
+
+        .skill-item-timed.completed .skill-checkbox-timed::after {
+            opacity: 1;
+            transform: scale(1);
+        }
+
+        .skill-info-timed {
+            flex: 1;
+        }
+
+        .skill-name-timed {
+            font-weight: 700;
+            font-size: 1.05rem;
+            color: var(--text-light);
+            margin-bottom: 2px;
+        }
+
+        .skill-target-timed {
+            font-size: 0.8rem;
+            color: var(--light-blue);
+            opacity: 0.8;
+        }
+
+        .skill-reps-input {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            flex-shrink: 0;
+        }
+
+        .skill-reps-input label {
+            font-size: 0.85rem;
+            color: var(--light-blue);
+            font-weight: 600;
+        }
+
+        .skill-reps-input input[type="number"] {
+            width: 70px;
+            padding: 8px 10px;
+            background: var(--card-dark);
+            border: 2px solid rgba(77, 166, 255, 0.3);
+            border-radius: 8px;
+            color: var(--text-light);
+            font-size: 0.95rem;
+            font-weight: 600;
+            text-align: center;
+            transition: all 0.3s;
+        }
+
+        .skill-reps-input input[type="number"]:focus {
+            outline: none;
+            border-color: var(--light-blue);
+            box-shadow: 0 0 10px rgba(77, 166, 255, 0.3);
+        }
+
+        .skill-reps-input input[type="number"]::-webkit-inner-spin-button,
+        .skill-reps-input input[type="number"]::-webkit-outer-spin-button {
+            opacity: 1;
+        }
+
+        /* Skill Checklist Styles - Compact Horizontal */
+        .skill-item-compact {
+            background: var(--deep-night);
+            border: 2px solid rgba(77, 166, 255, 0.3);
+            border-radius: 12px;
+            padding: 12px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 8px;
+            transition: all 0.3s;
+            cursor: pointer;
+            user-select: none;
+            text-align: center;
+        }
+
+        .skill-item-compact:hover {
+            border-color: var(--light-blue);
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(77, 166, 255, 0.3);
+        }
+
+        .skill-item-compact.completed {
+            border-color: #00ff88;
+            background: rgba(0, 255, 136, 0.1);
+        }
+
+        .skill-checkbox-compact {
+            width: 28px;
+            height: 28px;
+            border: 3px solid var(--light-blue);
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+            transition: all 0.3s;
+        }
+
+        .skill-item-compact.completed .skill-checkbox-compact {
+            background: #00ff88;
+            border-color: #00ff88;
+        }
+
+        .skill-checkbox-compact::after {
+            content: '✓';
+            font-size: 18px;
+            font-weight: bold;
+            color: var(--deep-night);
+            opacity: 0;
+            transform: scale(0);
+            transition: all 0.2s;
+        }
+
+        .skill-item-compact.completed .skill-checkbox-compact::after {
+            opacity: 1;
+            transform: scale(1);
+        }
+
+        .skill-info-compact {
+            display: flex;
+            flex-direction: column;
+            gap: 2px;
+        }
+
+        .skill-name-compact {
+            font-weight: 700;
+            font-size: 0.95rem;
+            color: var(--text-light);
+            line-height: 1.2;
+        }
+
+        .skill-target-compact {
+            font-size: 0.75rem;
+            color: var(--light-blue);
+            opacity: 0.8;
+        }
+
+        /* Original Skill Checklist Styles (kept for backward compatibility) */
+        .skill-item {
+            background: var(--deep-night);
+            border: 2px solid rgba(77, 166, 255, 0.3);
+            border-radius: 12px;
+            padding: 15px 20px;
+            margin-bottom: 12px;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            transition: all 0.3s;
+            cursor: pointer;
+            user-select: none;
+        }
+
+        .skill-item:hover {
+            border-color: var(--light-blue);
+            transform: translateX(5px);
+        }
+
+        .skill-item.completed {
+            border-color: #00ff88;
+            background: rgba(0, 255, 136, 0.1);
+        }
+
+        .skill-checkbox {
+            width: 30px;
+            height: 30px;
+            border: 3px solid var(--light-blue);
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+            transition: all 0.3s;
+        }
+
+        .skill-item.completed .skill-checkbox {
+            background: #00ff88;
+            border-color: #00ff88;
+        }
+
+        .skill-checkbox::after {
+            content: '✓';
+            font-size: 20px;
+            font-weight: bold;
+            color: var(--deep-night);
+            opacity: 0;
+            transform: scale(0);
+            transition: all 0.2s;
+        }
+
+        .skill-item.completed .skill-checkbox::after {
+            opacity: 1;
+            transform: scale(1);
+        }
+
+        .skill-info {
+            flex: 1;
+        }
+
+        .skill-name {
+            font-weight: 600;
+            font-size: 1.1rem;
+            color: var(--text-light);
+            margin-bottom: 4px;
+        }
+
+        .skill-target {
+            font-size: 0.85rem;
+            color: var(--light-blue);
+            opacity: 0.8;
+        }
+
+        /* Bonus Category Styles */
+        .bonus-category {
+            background: var(--deep-night);
+            border: 2px solid rgba(77, 166, 255, 0.3);
+            border-radius: 10px;
+            padding: 10px 12px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            cursor: pointer;
+            transition: all 0.3s;
+            user-select: none;
+        }
+
+        .bonus-category:hover {
+            border-color: var(--light-blue);
+            transform: translateY(-2px);
+        }
+
+        .bonus-category input[type="checkbox"] {
+            width: 20px;
+            height: 20px;
+            cursor: pointer;
+            accent-color: var(--bright-yellow);
+        }
+
+        .bonus-category span {
+            font-size: 0.9rem;
+            color: var(--text-light);
+            font-weight: 600;
+        }
+
+        .bonus-category input[type="checkbox"]:checked + span {
+            color: var(--bright-yellow);
+        }
+
+        /* Number Input Styles */
+        .number-input-wrapper {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            background: var(--deep-night);
+            border: 2px solid rgba(77, 166, 255, 0.3);
+            border-radius: 12px;
+            padding: 10px 15px;
+            transition: all 0.3s;
+        }
+
+        .number-input-wrapper:focus-within {
+            border-color: var(--light-blue);
+            box-shadow: 0 0 20px rgba(77, 166, 255, 0.3);
+        }
+
+        .number-btn {
+            width: 45px;
+            height: 45px;
+            border: none;
+            background: linear-gradient(135deg, var(--light-blue), var(--navy-blue));
+            color: white;
+            border-radius: 10px;
+            font-size: 1.8rem;
+            cursor: pointer;
+            transition: all 0.2s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            padding: 0;
+            line-height: 1;
+        }
+
+        .number-btn:hover {
+            background: linear-gradient(135deg, var(--bright-yellow), var(--orange-accent));
+            transform: scale(1.1);
+        }
+
+        .number-btn:active {
+            transform: scale(0.95);
+        }
+
+        .number-display {
+            flex: 1;
+            text-align: center;
+            font-family: 'Bebas Neue', cursive;
+            font-size: 3rem;
+            color: var(--bright-yellow);
+            text-shadow: 0 0 10px rgba(255, 214, 0, 0.5);
+        }
+
         @media (max-width: 768px) {
             .modal-content {
                 padding: 25px;
@@ -934,6 +1648,293 @@
             .session-actions {
                 width: 100%;
                 justify-content: flex-end;
+            }
+            
+            .number-display {
+                font-size: 2.5rem;
+            }
+        }
+
+        /* ============================================
+           NEW UX ENHANCEMENTS - TODAY'S GOALS CARD
+           ============================================ */
+        .goals-card {
+            background: linear-gradient(135deg, rgba(10, 143, 62, 0.15), rgba(0, 51, 102, 0.15));
+            border: 3px solid var(--field-green);
+            border-radius: 20px;
+            padding: 25px;
+            margin-bottom: 25px;
+            box-shadow: 
+                0 10px 40px rgba(10, 143, 62, 0.3),
+                inset 0 1px 0 rgba(77, 166, 255, 0.1);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .goals-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(10, 143, 62, 0.2), transparent);
+            transition: left 0.8s;
+        }
+
+        .goals-card:hover::before {
+            left: 100%;
+        }
+
+        .goals-header {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 20px;
+        }
+
+        .goals-icon {
+            font-size: 2.5rem;
+            animation: float 3s ease-in-out infinite;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-10px); }
+        }
+
+        .goals-title {
+            font-family: 'Bebas Neue', cursive;
+            font-size: 2rem;
+            color: var(--bright-yellow);
+            letter-spacing: 2px;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+        }
+
+        .goals-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+            margin-bottom: 15px;
+        }
+
+        .goal-item {
+            background: rgba(0, 8, 20, 0.6);
+            border: 2px solid rgba(77, 166, 255, 0.3);
+            border-radius: 12px;
+            padding: 15px;
+            transition: all 0.3s;
+        }
+
+        .goal-item:hover {
+            border-color: var(--bright-yellow);
+            transform: translateY(-3px);
+            box-shadow: 0 5px 20px rgba(255, 214, 0, 0.3);
+        }
+
+        .goal-label {
+            font-size: 0.85rem;
+            color: var(--light-blue);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 8px;
+            font-weight: 600;
+        }
+
+        .goal-value {
+            font-family: 'Bebas Neue', cursive;
+            font-size: 2.2rem;
+            color: var(--bright-yellow);
+            text-shadow: 0 0 10px rgba(255, 214, 0, 0.5);
+        }
+
+        .goal-subtitle {
+            font-size: 0.75rem;
+            color: var(--text-light);
+            opacity: 0.7;
+            margin-top: 4px;
+        }
+
+        .goals-footer {
+            text-align: center;
+            padding-top: 15px;
+            border-top: 2px solid rgba(77, 166, 255, 0.2);
+            color: var(--field-green);
+            font-weight: 700;
+            font-size: 0.95rem;
+            letter-spacing: 0.5px;
+        }
+
+        /* Previous Session Display */
+        .previous-session-card {
+            background: rgba(26, 31, 46, 0.5);
+            border: 2px solid rgba(77, 166, 255, 0.25);
+            border-radius: 15px;
+            padding: 20px;
+            margin-bottom: 20px;
+        }
+
+        .previous-session-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+
+        .previous-session-title {
+            font-family: 'Bebas Neue', cursive;
+            font-size: 1.3rem;
+            color: var(--light-blue);
+            letter-spacing: 1px;
+        }
+
+        .previous-session-date {
+            font-size: 0.85rem;
+            color: var(--text-light);
+            opacity: 0.7;
+        }
+
+        .previous-session-stats {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+            gap: 12px;
+        }
+
+        .prev-stat {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 10px 12px;
+            background: rgba(0, 8, 20, 0.5);
+            border-radius: 8px;
+            border-left: 3px solid var(--light-blue);
+        }
+
+        .prev-stat.complete {
+            border-left-color: #00ff88;
+        }
+
+        .prev-stat-label {
+            font-size: 0.85rem;
+            color: var(--text-light);
+            font-weight: 600;
+        }
+
+        .prev-stat-value {
+            font-family: 'Bebas Neue', cursive;
+            font-size: 1.5rem;
+            color: var(--bright-yellow);
+        }
+
+        .prev-stat.complete .prev-stat-value::after {
+            content: ' ✅';
+            font-size: 0.9rem;
+        }
+
+        /* Quick Log Button */
+        .quick-log-btn {
+            background: linear-gradient(135deg, #00ff88, #00cc6a);
+            color: var(--deep-night);
+            border: none;
+            padding: 18px 30px;
+            font-family: 'Bebas Neue', cursive;
+            font-size: 1.6rem;
+            letter-spacing: 2px;
+            border-radius: 12px;
+            cursor: pointer;
+            transition: all 0.3s;
+            box-shadow: 0 5px 20px rgba(0, 255, 136, 0.4);
+            position: relative;
+            overflow: hidden;
+            width: 100%;
+            margin-bottom: 20px;
+        }
+
+        .quick-log-btn.logged {
+            background: linear-gradient(135deg, var(--light-blue), #3385ff);
+            box-shadow: 0 5px 20px rgba(77, 166, 255, 0.4);
+            color: white;
+        }
+
+        .quick-log-btn.logged:hover {
+            box-shadow: 0 8px 30px rgba(77, 166, 255, 0.6);
+        }
+
+        .quick-log-btn::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 0;
+            height: 0;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.4);
+            transform: translate(-50%, -50%);
+            transition: width 0.6s, height 0.6s;
+        }
+
+        .quick-log-btn:hover::before {
+            width: 300px;
+            height: 300px;
+        }
+
+        .quick-log-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 30px rgba(0, 255, 136, 0.6);
+        }
+
+        .quick-log-btn:active {
+            transform: translateY(-1px);
+        }
+
+        .quick-log-subtitle {
+            display: block;
+            font-size: 0.85rem;
+            font-family: 'Outfit', sans-serif;
+            opacity: 0.9;
+            margin-top: 5px;
+            letter-spacing: 0.5px;
+            font-weight: 600;
+        }
+
+        .or-divider {
+            text-align: center;
+            position: relative;
+            margin: 25px 0;
+        }
+
+        .or-divider::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 0;
+            right: 0;
+            height: 2px;
+            background: linear-gradient(90deg, transparent, rgba(77, 166, 255, 0.3), transparent);
+        }
+
+        .or-divider span {
+            background: var(--card-dark);
+            padding: 0 20px;
+            position: relative;
+            color: var(--light-blue);
+            font-weight: 600;
+            text-transform: uppercase;
+            font-size: 0.9rem;
+            letter-spacing: 1px;
+        }
+
+        @media (max-width: 768px) {
+            .goals-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .previous-session-stats {
+                grid-template-columns: 1fr;
+            }
+
+            .goals-title {
+                font-size: 1.5rem;
             }
         }
 </style>
@@ -1014,6 +2015,17 @@
             <div class="card" style="text-align: center; padding: 20px; margin-bottom: 20px;">
                 <h2 id="welcomeMessage" style="color: var(--bright-yellow); font-size: 2.5rem; margin: 0;">Welcome Back!</h2>
             </div>
+
+            <!-- PREVIOUS SESSION DISPLAY -->
+            <div id="previousSessionCard" class="previous-session-card" style="display: none;">
+                <div class="previous-session-header">
+                    <div class="previous-session-title">📊 Last Training Session</div>
+                    <div class="previous-session-date" id="prevSessionDate"></div>
+                </div>
+                <div class="previous-session-stats" id="prevSessionStats">
+                    <!-- Dynamically populated -->
+                </div>
+            </div>
             
             <div class="card">
                 <h2>Your Stats</h2>
@@ -1025,6 +2037,10 @@
                     <div class="stat-box">
                         <div class="stat-number" id="totalMinutes">0</div>
                         <div class="stat-label">Total Minutes</div>
+                    </div>
+                    <div class="stat-box">
+                        <div class="stat-number" id="bonusMinutesTotal">0</div>
+                        <div class="stat-label">⭐ Bonus Minutes</div>
                     </div>
                     <div class="stat-box">
                         <div class="stat-number" id="weeklyStreak">0</div>
@@ -1039,29 +2055,222 @@
                 <div id="streakMessage"></div>
             </div>
 
+            <!-- BALL MASTERY CARD -->
             <div class="card">
-                <h2>Log Today's Training</h2>
+                <h2>⚽ Ball Mastery</h2>
+                
+                <!-- Ball Mastery Explanation -->
+                <div style="background: rgba(77, 166, 255, 0.1); border-left: 4px solid var(--light-blue); padding: 15px; margin-bottom: 20px; border-radius: 8px;">
+                    <div style="color: var(--bright-yellow); font-weight: 600; margin-bottom: 8px; font-size: 1rem;">Prescribed Training</div>
+                    <div style="color: var(--text-light); font-size: 0.95rem; line-height: 1.6;">
+                        <strong>1 minute sets, 2 sets of each:</strong><br>
+                        Outside Inside • Double Touch Sole Roll • L-drag • V-cut • Scissor Take • Step Over Take
+                    </div>
+                </div>
+                
+                <!-- QUICK LOG BUTTON -->
+                <button type="button" class="quick-log-btn" id="quickLogBallMasteryBtn" onclick="quickLogPrescribed()">
+                    ✨ Quick Log: Completed All Ball Mastery
+                    <span class="quick-log-subtitle">All 6 exercises (2 sets × 1 min each) = 12 minutes</span>
+                </button>
+                
+                <!-- Individual Exercise Checkboxes -->
+                <div style="padding: 15px; background: rgba(0, 8, 20, 0.3); border-radius: 12px;">
+                    <p style="color: var(--light-blue); opacity: 0.8; font-size: 0.85rem; margin-bottom: 15px;">Or check individual exercises (2 sets × 1 min each):</p>
+                    <div style="display: flex; flex-direction: column; gap: 8px;">
+                        <div class="simple-checkbox-item" id="check-outsideinside" onclick="toggleSimpleCheckbox('outsideinside')">
+                            <div class="simple-checkbox"></div>
+                            <span>Outside Inside</span>
+                        </div>
+                        <div class="simple-checkbox-item" id="check-soleroll" onclick="toggleSimpleCheckbox('soleroll')">
+                            <div class="simple-checkbox"></div>
+                            <span>Double Touch Sole Roll</span>
+                        </div>
+                        <div class="simple-checkbox-item" id="check-ldrag" onclick="toggleSimpleCheckbox('ldrag')">
+                            <div class="simple-checkbox"></div>
+                            <span>L-drag</span>
+                        </div>
+                        <div class="simple-checkbox-item" id="check-vcut" onclick="toggleSimpleCheckbox('vcut')">
+                            <div class="simple-checkbox"></div>
+                            <span>V-cut</span>
+                        </div>
+                        <div class="simple-checkbox-item" id="check-scissortake" onclick="toggleSimpleCheckbox('scissortake')">
+                            <div class="simple-checkbox"></div>
+                            <span>Scissor Take</span>
+                        </div>
+                        <div class="simple-checkbox-item" id="check-stepovertake" onclick="toggleSimpleCheckbox('stepovertake')">
+                            <div class="simple-checkbox"></div>
+                            <span>Step Over Take</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- WALL PASSING CARD -->
+            <div class="card">
+                <h2>🎯 Wall Passing</h2>
+                
+                <!-- Wall Passing Explanation -->
+                <div style="background: rgba(77, 166, 255, 0.1); border-left: 4px solid var(--light-blue); padding: 15px; margin-bottom: 15px; border-radius: 8px;">
+                    <div style="color: var(--bright-yellow); font-weight: 600; margin-bottom: 8px; font-size: 1rem;">Prescribed Training</div>
+                    <div style="color: var(--text-light); font-size: 0.95rem; line-height: 1.6;">
+                        <strong>1 minute sets, 2 sets of each:</strong><br>
+                        2 Touch R Foot • 2 Touch L Foot • 1 Touch R Foot • 1 Touch L Foot • Inside Touch Alternate L/R • Roll Touch Alternate L/R
+                    </div>
+                </div>
+
+                <!-- Quick Log Wall Passing Button -->
+                <button type="button" class="quick-log-btn" id="quickLogWallPassingBtn" onclick="quickLogWallPassing()" style="margin-bottom: 15px;">
+                    ✨ Quick Log: Completed All Wall Passing
+                    <span class="quick-log-subtitle">All 6 exercises (2 sets × 1 min each) = 12 minutes</span>
+                </button>
+
+                <!-- Individual Exercise Checkboxes -->
+                <div style="padding: 15px; background: rgba(0, 8, 20, 0.3); border-radius: 12px;">
+                    <p style="color: var(--light-blue); opacity: 0.8; font-size: 0.85rem; margin-bottom: 15px;">Or check individual exercises (2 sets × 1 min each):</p>
+                    <div style="display: flex; flex-direction: column; gap: 8px;">
+                        <div class="simple-checkbox-item" id="check-2touchrfoot" onclick="toggleWallPassingCheckbox('2touchrfoot')">
+                            <div class="simple-checkbox"></div>
+                            <span>2 Touch R Foot</span>
+                        </div>
+                        <div class="simple-checkbox-item" id="check-2touchlfoot" onclick="toggleWallPassingCheckbox('2touchlfoot')">
+                            <div class="simple-checkbox"></div>
+                            <span>2 Touch L Foot</span>
+                        </div>
+                        <div class="simple-checkbox-item" id="check-1touchrfoot" onclick="toggleWallPassingCheckbox('1touchrfoot')">
+                            <div class="simple-checkbox"></div>
+                            <span>1 Touch R Foot</span>
+                        </div>
+                        <div class="simple-checkbox-item" id="check-1touchlfoot" onclick="toggleWallPassingCheckbox('1touchlfoot')">
+                            <div class="simple-checkbox"></div>
+                            <span>1 Touch L Foot</span>
+                        </div>
+                        <div class="simple-checkbox-item" id="check-insidetouchalternate" onclick="toggleWallPassingCheckbox('insidetouchalternate')">
+                            <div class="simple-checkbox"></div>
+                            <span>Inside Touch Alternate L/R</span>
+                        </div>
+                        <div class="simple-checkbox-item" id="check-rolltouchalternate" onclick="toggleWallPassingCheckbox('rolltouchalternate')">
+                            <div class="simple-checkbox"></div>
+                            <span>Roll Touch Alternate L/R</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- JUGGLING CARD -->
+            <div class="card">
+                <h2>🤹 Juggling</h2>
+                
+                <div style="margin-bottom: 0;">
+                    <!-- Juggling Explanation -->
+                    <div style="background: rgba(77, 166, 255, 0.1); border-left: 4px solid var(--light-blue); padding: 15px; margin-bottom: 15px; border-radius: 8px;">
+                        <div style="color: var(--bright-yellow); font-weight: 600; margin-bottom: 8px; font-size: 1rem;">Prescribed Training</div>
+                        <div style="color: var(--text-light); font-size: 0.95rem; line-height: 1.6;">
+                            <strong>1 minute sets, 2 sets of each:</strong><br>
+                            L Foot • R Foot • Alternating Feet • Thighs • Maximum Streak
+                        </div>
+                    </div>
+
+                    <!-- Quick Log Juggling Button -->
+                    <button type="button" class="quick-log-btn" id="quickLogJugglingBtn" onclick="quickLogJuggling()" style="margin-bottom: 15px;">
+                        ✨ Quick Log: Completed All Juggling
+                        <span class="quick-log-subtitle">All 5 exercises (2 sets × 1 min each) = 10 minutes</span>
+                    </button>
+
+                    <!-- Individual Exercises -->
+                    <div style="padding: 15px; background: rgba(0, 8, 20, 0.3); border-radius: 12px; margin-bottom: 15px;">
+                        <p style="color: var(--light-blue); opacity: 0.8; font-size: 0.85rem; margin-bottom: 15px;">Or check individual exercises (2 sets × 1 min each):</p>
+                        <div style="display: flex; flex-direction: column; gap: 8px;">
+                            <div class="simple-checkbox-item" id="check-lfoot" onclick="toggleJugglingCheckbox('lfoot')">
+                                <div class="simple-checkbox"></div>
+                                <span>L Foot</span>
+                            </div>
+                            <div class="simple-checkbox-item" id="check-rfoot" onclick="toggleJugglingCheckbox('rfoot')">
+                                <div class="simple-checkbox"></div>
+                                <span>R Foot</span>
+                            </div>
+                            <div class="simple-checkbox-item" id="check-alternatingfeet" onclick="toggleJugglingCheckbox('alternatingfeet')">
+                                <div class="simple-checkbox"></div>
+                                <span>Alternating Feet</span>
+                            </div>
+                            <div class="simple-checkbox-item" id="check-thighs" onclick="toggleJugglingCheckbox('thighs')">
+                                <div class="simple-checkbox"></div>
+                                <span>Thighs</span>
+                            </div>
+                            <div class="simple-checkbox-item" id="check-maxstreak" onclick="toggleJugglingCheckbox('maxstreak')">
+                                <div class="simple-checkbox"></div>
+                                <span>Maximum Streak</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Freestyle Option -->
+                    <div style="padding: 15px; background: rgba(0, 8, 20, 0.3); border-radius: 12px; margin-bottom: 15px;">
+                        <label style="display: block; margin-bottom: 10px; color: var(--bright-yellow); font-weight: 600; font-size: 0.95rem;">Or Freestyle Juggling: <span id="freestyleJugglingValue">0</span> minutes</label>
+                        <input type="range" min="0" max="30" value="0" class="slider" id="slider-freestyle" 
+                               oninput="updateFreestyleJuggling(this.value)" 
+                               style="width: 100%; margin-bottom: 8px;">
+                        <p style="color: var(--light-blue); opacity: 0.7; font-size: 0.85rem;">Did your own juggling routine? Log total minutes here</p>
+                    </div>
+
+                    <!-- Max Streak Tracker (Optional) -->
+                    <div style="padding: 15px; background: rgba(0, 8, 20, 0.3); border-radius: 12px;">
+                        <label style="display: block; margin-bottom: 10px; color: var(--bright-yellow); font-weight: 600; font-size: 0.95rem;">Best Streak Today: <span id="jugglingValue">0</span> touches</label>
+                        <input type="range" min="0" max="1000" value="0" class="slider" id="slider-juggling" 
+                               oninput="updateJugglingStreak(this.value)" 
+                               style="width: 100%; margin-bottom: 8px;">
+                        <p style="color: var(--light-blue); opacity: 0.7; font-size: 0.85rem;">Track your longest streak for the leaderboard</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- BONUS TRAINING CARD -->
+            <div class="card">
+                <h2>⭐ Bonus Training (Optional)</h2>
+                
+                <div style="margin-bottom: 20px;">
+                    <label style="display: block; margin-bottom: 10px; color: var(--bright-yellow); font-weight: 600; font-size: 0.95rem;">Extra Training Time: <span id="bonusMinutesValue">0</span> minutes</label>
+                    <input type="range" min="0" max="30" value="0" class="slider" id="slider-bonus" 
+                           oninput="updateBonusMinutes(this.value)" 
+                           style="width: 100%; margin-bottom: 8px;">
+                    <p style="color: var(--light-blue); opacity: 0.7; font-size: 0.85rem;">Additional training beyond the core exercises</p>
+                </div>
+
+                <!-- Bonus Categories -->
+                <div>
+                    <label style="display: block; margin-bottom: 10px; color: var(--light-blue); font-weight: 600; font-size: 0.9rem;">What did you work on?</label>
+                    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)); gap: 8px;">
+                        <label class="bonus-category">
+                            <input type="checkbox" id="bonus-shooting" value="shooting">
+                            <span>🎯 Shooting</span>
+                        </label>
+                        <label class="bonus-category">
+                            <input type="checkbox" id="bonus-dribbling" value="dribbling">
+                            <span>⚡ Dribbling</span>
+                        </label>
+                        <label class="bonus-category">
+                            <input type="checkbox" id="bonus-agility" value="agility">
+                            <span>🏃 Speed/Agility</span>
+                        </label>
+                    </div>
+                </div>
+            </div>
+
+            <!-- SUBMIT TRAINING CARD -->
+            <div class="card">
+                <h2>Submit Training</h2>
                 <div id="congratsMessage"></div>
+                
                 <form class="training-form" onsubmit="logTraining(event)">
-                    <div class="input-group">
-                        <label for="ballMastery">Ball Mastery (min)</label>
-                        <input type="number" id="ballMastery" min="0" required>
-                    </div>
-                    <div class="training-inputs">
-                        <div class="input-group">
-                            <label for="juggling">Juggling (min)</label>
-                            <input type="number" id="juggling" min="0" required>
-                        </div>
-                        <div class="input-group">
-                            <label for="jugglingStreak">Max Juggling Streak</label>
-                            <input type="number" id="jugglingStreak" min="0" required>
+                    <!-- Quality Reminder -->
+                    <div style="background: rgba(255, 214, 0, 0.1); border: 2px solid var(--bright-yellow); border-radius: 12px; padding: 15px; margin-bottom: 20px;">
+                        <div style="color: var(--bright-yellow); font-weight: 700; font-size: 1rem; margin-bottom: 5px;">⚠️ Remember: Quality Over Quantity!</div>
+                        <div style="color: var(--text-light); font-size: 0.9rem;">
+                            Focus on perfect form - Coach will be checking these skills at practice! Better to do fewer reps correctly than many reps with poor technique.
                         </div>
                     </div>
-                    <div class="input-group">
-                        <label for="wallPassing">Wall Passing (min)</label>
-                        <input type="number" id="wallPassing" min="0" required>
-                    </div>
-                    <button type="submit">Log Training Session</button>
+
+                    <button type="submit">Log Training Session 🔥</button>
                 </form>
 
                 <div class="training-history">
@@ -1071,7 +2280,8 @@
             </div>
 
             <div class="card">
-                <h2>Team Leaderboard</h2>
+                <h2>📊 This Week's Leaderboard</h2>
+                <p style="color: var(--electric-blue); margin-bottom: 15px; font-size: 0.9rem;" id="leaderboardResetInfo">Resets every Monday at 12:00 AM</p>
                 <table class="leaderboard-table">
                     <thead>
                         <tr>
@@ -1137,7 +2347,8 @@
             </div>
 
             <div class="card">
-                <h2>Team Leaderboard</h2>
+                <h2>📊 This Week's Leaderboard</h2>
+                <p style="color: var(--electric-blue); margin-bottom: 15px; font-size: 0.9rem;">Weekly rankings reset every Monday at 12:00 AM</p>
                 <table class="leaderboard-table">
                     <thead>
                         <tr>
@@ -1185,21 +2396,57 @@
                 <h2 class="modal-title">Edit Session</h2>
                 <button class="modal-close" onclick="closeEditModal()">×</button>
             </div>
-            <div class="input-group">
-                <label for="editBallMastery">Ball Mastery (min)</label>
-                <input type="number" id="editBallMastery" min="0" required>
+            <div class="slider-container">
+                <div class="slider-header">
+                    <span class="slider-label">⚽ Ball Mastery</span>
+                    <span class="slider-value" id="editBallMasteryValue">0</span>
+                </div>
+                <input type="range" id="editBallMastery" min="0" max="60" value="0" 
+                       oninput="updateSliderValue('editBallMastery', this.value)">
+                <div class="slider-markers">
+                    <span>0 min</span>
+                    <span>30 min</span>
+                    <span>60 min</span>
+                </div>
             </div>
-            <div class="input-group">
-                <label for="editJuggling">Juggling (min)</label>
-                <input type="number" id="editJuggling" min="0" required>
+            <div class="slider-container">
+                <div class="slider-header">
+                    <span class="slider-label">⏱️ Juggling Time</span>
+                    <span class="slider-value" id="editJugglingValue">0</span>
+                </div>
+                <input type="range" id="editJuggling" min="0" max="60" value="0" 
+                       oninput="updateSliderValue('editJuggling', this.value)">
+                <div class="slider-markers">
+                    <span>0 min</span>
+                    <span>30 min</span>
+                    <span>60 min</span>
+                </div>
             </div>
-            <div class="input-group">
-                <label for="editJugglingStreak">Max Juggling Streak</label>
-                <input type="number" id="editJugglingStreak" min="0" required>
+            <div class="slider-container">
+                <div class="slider-header">
+                    <span class="slider-label">🎯 Max Juggling Streak</span>
+                    <span class="slider-value" id="editJugglingStreakValue">0</span>
+                </div>
+                <input type="range" id="editJugglingStreak" min="0" max="200" value="0" step="5"
+                       oninput="updateSliderValue('editJugglingStreak', this.value)">
+                <div class="slider-markers">
+                    <span>0 touches</span>
+                    <span>100 touches</span>
+                    <span>200 touches</span>
+                </div>
             </div>
-            <div class="input-group">
-                <label for="editWallPassing">Wall Passing (min)</label>
-                <input type="number" id="editWallPassing" min="0" required>
+            <div class="slider-container">
+                <div class="slider-header">
+                    <span class="slider-label">🧱 Wall Passing</span>
+                    <span class="slider-value" id="editWallPassingValue">0</span>
+                </div>
+                <input type="range" id="editWallPassing" min="0" max="60" value="0" 
+                       oninput="updateSliderValue('editWallPassing', this.value)">
+                <div class="slider-markers">
+                    <span>0 min</span>
+                    <span>30 min</span>
+                    <span>60 min</span>
+                </div>
             </div>
             <div class="modal-buttons">
                 <button onclick="saveEditedSession()">Save Changes</button>
@@ -1731,21 +2978,389 @@
             }
         }
 
+        // Session Data State
+        let sessionData = {
+            ballMastery: {
+                outsideinside: { completed: false, reps: 0 },
+                soleroll: { completed: false, reps: 0 },
+                ldrag: { completed: false, reps: 0 },
+                vcut: { completed: false, reps: 0 },
+                scissortake: { completed: false, reps: 0 },
+                stepovertake: { completed: false, reps: 0 }
+            },
+            wallPassing: {
+                '2touchrfoot': { completed: false },
+                '2touchlfoot': { completed: false },
+                '1touchrfoot': { completed: false },
+                '1touchlfoot': { completed: false },
+                'insidetouchalternate': { completed: false },
+                'rolltouchalternate': { completed: false }
+            },
+            jugglingExercises: {
+                'lfoot': { completed: false },
+                'rfoot': { completed: false },
+                'alternatingfeet': { completed: false },
+                'thighs': { completed: false },
+                'maxstreak': { completed: false }
+            },
+            freestyleJuggling: 0, // Minutes of freestyle juggling
+            wallPasses: 0, // Legacy - kept for compatibility
+            juggling: 0, // Max streak for leaderboard
+            bonusMinutes: 0,
+            bonusCategories: []
+        };
+
+        // Simplified Ball Mastery Functions
+        function toggleBallMasterySection() {
+            const content = document.getElementById('ballMasteryContent');
+            const icon = document.getElementById('ballMasteryToggleIcon');
+            
+            if (content.style.display === 'none') {
+                content.style.display = 'block';
+                icon.style.transform = 'rotate(180deg)';
+            } else {
+                content.style.display = 'none';
+                icon.style.transform = 'rotate(0deg)';
+            }
+        }
+
+        function toggleSimpleCheckbox(skillName) {
+            const checkItem = document.getElementById(`check-${skillName}`);
+            
+            // Toggle the checkbox
+            const isChecked = checkItem.classList.contains('checked');
+            if (isChecked) {
+                checkItem.classList.remove('checked');
+                sessionData.ballMastery[skillName].completed = false;
+                sessionData.ballMastery[skillName].reps = 0;
+            } else {
+                checkItem.classList.add('checked');
+                sessionData.ballMastery[skillName].completed = true;
+                sessionData.ballMastery[skillName].reps = 50; // Default reps for completion
+            }
+        }
+
+        // Wall Passing Functions
+        function toggleWallPassingSection() {
+            const content = document.getElementById('wallPassingContent');
+            const icon = document.getElementById('wallPassingToggleIcon');
+            
+            if (content.style.display === 'none') {
+                content.style.display = 'block';
+                icon.style.transform = 'rotate(180deg)';
+            } else {
+                content.style.display = 'none';
+                icon.style.transform = 'rotate(0deg)';
+            }
+        }
+
+        function toggleWallPassingCheckbox(exerciseName) {
+            const checkItem = document.getElementById(`check-${exerciseName}`);
+            
+            // Toggle the checkbox
+            const isChecked = checkItem.classList.contains('checked');
+            if (isChecked) {
+                checkItem.classList.remove('checked');
+                sessionData.wallPassing[exerciseName].completed = false;
+            } else {
+                checkItem.classList.add('checked');
+                sessionData.wallPassing[exerciseName].completed = true;
+            }
+        }
+
+        function quickLogWallPassing() {
+            if (!confirm('Log Wall Passing workout?\n\n✓ All 6 exercises (2 sets × 1 min each)\n\nTotal: 12 minutes')) {
+                return;
+            }
+            
+            // Mark all wall passing exercises as completed
+            const exercises = ['2touchrfoot', '2touchlfoot', '1touchrfoot', '1touchlfoot', 'insidetouchalternate', 'rolltouchalternate'];
+            exercises.forEach(exercise => {
+                sessionData.wallPassing[exercise].completed = true;
+                const checkItem = document.getElementById(`check-${exercise}`);
+                if (checkItem) checkItem.classList.add('checked');
+            });
+            
+            // Change button color to show it's logged
+            document.getElementById('quickLogWallPassingBtn').classList.add('logged');
+            
+            // Auto-submit - we'll handle this in the logTraining function
+            showToast('Wall Passing logged! Add other training or click Submit.');
+        }
+
+        // Juggling Functions
+        function toggleJugglingSection() {
+            const content = document.getElementById('jugglingContent');
+            const icon = document.getElementById('jugglingToggleIcon');
+            
+            if (content.style.display === 'none') {
+                content.style.display = 'block';
+                icon.style.transform = 'rotate(180deg)';
+            } else {
+                content.style.display = 'none';
+                icon.style.transform = 'rotate(0deg)';
+            }
+        }
+
+        function toggleJugglingCheckbox(exerciseName) {
+            const checkItem = document.getElementById(`check-${exerciseName}`);
+            
+            // Toggle the checkbox
+            const isChecked = checkItem.classList.contains('checked');
+            if (isChecked) {
+                checkItem.classList.remove('checked');
+                sessionData.jugglingExercises[exerciseName].completed = false;
+            } else {
+                checkItem.classList.add('checked');
+                sessionData.jugglingExercises[exerciseName].completed = true;
+            }
+        }
+
+        function quickLogJuggling() {
+            if (!confirm('Log Juggling workout?\n\n✓ All 5 exercises (2 sets × 1 min each)\n\nTotal: 10 minutes')) {
+                return;
+            }
+            
+            // Mark all juggling exercises as completed
+            const exercises = ['lfoot', 'rfoot', 'alternatingfeet', 'thighs', 'maxstreak'];
+            exercises.forEach(exercise => {
+                sessionData.jugglingExercises[exercise].completed = true;
+                const checkItem = document.getElementById(`check-${exercise}`);
+                if (checkItem) checkItem.classList.add('checked');
+            });
+            
+            // Reset freestyle if they're doing prescribed
+            sessionData.freestyleJuggling = 0;
+            document.getElementById('freestyleJugglingDisplay').textContent = 0;
+            
+            // Change button color to show it's logged
+            document.getElementById('quickLogJugglingBtn').classList.add('logged');
+            
+            showToast('Juggling logged! Add other training or click Submit.');
+        }
+
+        function updateFreestyleJuggling(value) {
+            sessionData.freestyleJuggling = parseInt(value);
+            document.getElementById('freestyleJugglingValue').textContent = value;
+            
+            // If using freestyle, uncheck all prescribed exercises
+            if (value > 0) {
+                const exercises = ['lfoot', 'rfoot', 'alternatingfeet', 'thighs', 'maxstreak'];
+                exercises.forEach(exercise => {
+                    sessionData.jugglingExercises[exercise].completed = false;
+                    const checkItem = document.getElementById(`check-${exercise}`);
+                    if (checkItem) checkItem.classList.remove('checked');
+                });
+            }
+        }
+
+        function updateJugglingStreak(value) {
+            sessionData.juggling = parseInt(value);
+            document.getElementById('jugglingValue').textContent = value;
+        }
+
+        function updateBonusMinutes(value) {
+            sessionData.bonusMinutes = parseInt(value);
+            document.getElementById('bonusMinutesValue').textContent = value;
+        }
+
+        // Toggle skill completion (legacy - keep for compatibility)
+        function toggleSkill(skillName) {
+            sessionData.ballMastery[skillName].completed = !sessionData.ballMastery[skillName].completed;
+            const skillElement = document.getElementById(`skill-${skillName}`);
+            
+            if (sessionData.ballMastery[skillName].completed) {
+                skillElement.classList.add('completed');
+            } else {
+                skillElement.classList.remove('completed');
+            }
+        }
+
+        // Update reps from slider
+        function updateSliderReps(skillName, reps) {
+            const repsValue = parseInt(reps) || 0;
+            sessionData.ballMastery[skillName].reps = repsValue;
+            document.getElementById(`reps-${skillName}`).textContent = repsValue;
+        }
+
+        // Update reps for a skill (legacy support)
+        function updateReps(skillName, reps) {
+            sessionData.ballMastery[skillName].reps = parseInt(reps) || 0;
+        }
+
+        // Increment/decrement number values with caps
+        function incrementValue(field) {
+            if (field === 'wallPasses') {
+                // Cap at 300 wall passes
+                if (sessionData.wallPasses < 300) {
+                    sessionData.wallPasses += 10;
+                    document.getElementById('wallPassesDisplay').textContent = sessionData.wallPasses;
+                }
+            } else if (field === 'juggling') {
+                // Cap at 1000 juggles
+                if (sessionData.juggling < 1000) {
+                    sessionData.juggling += 5;
+                    document.getElementById('jugglingDisplay').textContent = sessionData.juggling;
+                }
+            } else if (field === 'bonusMinutes') {
+                // Cap at 180 minutes (3 hours) for bonus
+                if (sessionData.bonusMinutes < 180) {
+                    sessionData.bonusMinutes += 5;
+                    document.getElementById('bonusMinutesDisplay').textContent = sessionData.bonusMinutes;
+                }
+            }
+        }
+
+        function decrementValue(field) {
+            if (field === 'wallPasses') {
+                sessionData.wallPasses = Math.max(0, sessionData.wallPasses - 10);
+                document.getElementById('wallPassesDisplay').textContent = sessionData.wallPasses;
+            } else if (field === 'juggling') {
+                sessionData.juggling = Math.max(0, sessionData.juggling - 5);
+                document.getElementById('jugglingDisplay').textContent = sessionData.juggling;
+            } else if (field === 'bonusMinutes') {
+                sessionData.bonusMinutes = Math.max(0, sessionData.bonusMinutes - 5);
+                document.getElementById('bonusMinutesDisplay').textContent = sessionData.bonusMinutes;
+            }
+        }
+
+        // Reset session data after logging
+        function resetSessionData() {
+            sessionData = {
+                ballMastery: {
+                    outsideinside: { completed: false, reps: 0 },
+                    soleroll: { completed: false, reps: 0 },
+                    ldrag: { completed: false, reps: 0 },
+                    vcut: { completed: false, reps: 0 },
+                    scissortake: { completed: false, reps: 0 },
+                    stepovertake: { completed: false, reps: 0 }
+                },
+                wallPassing: {
+                    '2touchrfoot': { completed: false },
+                    '2touchlfoot': { completed: false },
+                    '1touchrfoot': { completed: false },
+                    '1touchlfoot': { completed: false },
+                    'insidetouchalternate': { completed: false },
+                    'rolltouchalternate': { completed: false }
+                },
+                jugglingExercises: {
+                    'lfoot': { completed: false },
+                    'rfoot': { completed: false },
+                    'alternatingfeet': { completed: false },
+                    'thighs': { completed: false },
+                    'maxstreak': { completed: false }
+                },
+                freestyleJuggling: 0,
+                wallPasses: 0,
+                juggling: 0,
+                bonusMinutes: 0,
+                bonusCategories: []
+            };
+            
+            // Reset Quick Log button colors
+            const ballMasteryBtn = document.getElementById('quickLogBallMasteryBtn');
+            const wallPassingBtn = document.getElementById('quickLogWallPassingBtn');
+            const jugglingBtn = document.getElementById('quickLogJugglingBtn');
+            if (ballMasteryBtn) ballMasteryBtn.classList.remove('logged');
+            if (wallPassingBtn) wallPassingBtn.classList.remove('logged');
+            if (jugglingBtn) jugglingBtn.classList.remove('logged');
+            
+            // Reset ball mastery checkboxes
+            ['outsideinside', 'soleroll', 'ldrag', 'vcut', 'scissortake', 'stepovertake'].forEach(skill => {
+                const checkItem = document.getElementById(`check-${skill}`);
+                if (checkItem) checkItem.classList.remove('checked');
+            });
+            
+            // Reset wall passing checkboxes
+            ['2touchrfoot', '2touchlfoot', '1touchrfoot', '1touchlfoot', 'insidetouchalternate', 'rolltouchalternate'].forEach(exercise => {
+                const checkItem = document.getElementById(`check-${exercise}`);
+                if (checkItem) checkItem.classList.remove('checked');
+            });
+            
+            // Reset juggling checkboxes
+            ['lfoot', 'rfoot', 'alternatingfeet', 'thighs', 'maxstreak'].forEach(exercise => {
+                const checkItem = document.getElementById(`check-${exercise}`);
+                if (checkItem) checkItem.classList.remove('checked');
+            });
+            
+            // Reset freestyle juggling slider and display
+            const freestyleSlider = document.getElementById('slider-freestyle');
+            const freestyleValue = document.getElementById('freestyleJugglingValue');
+            if (freestyleSlider) freestyleSlider.value = 0;
+            if (freestyleValue) freestyleValue.textContent = '0';
+            
+            // Reset juggling streak slider and display
+            const jugglingSlider = document.getElementById('slider-juggling');
+            const jugglingValue = document.getElementById('jugglingValue');
+            if (jugglingSlider) jugglingSlider.value = 0;
+            if (jugglingValue) jugglingValue.textContent = '0';
+            
+            // Reset UI - works for all skill item types
+            document.querySelectorAll('.skill-item, .skill-item-compact, .skill-item-timed, .skill-item-slider').forEach(item => {
+                item.classList.remove('completed');
+            });
+            
+            // Reset sliders and their displays
+            ['outsideinside', 'soleroll', 'ldrag', 'vcut', 'scissortake', 'stepovertake'].forEach(skill => {
+                const slider = document.getElementById(`slider-${skill}`);
+                const display = document.getElementById(`reps-${skill}`);
+                if (slider) slider.value = 0;
+                if (display) display.textContent = '0';
+            });
+            
+            // Reset rep inputs (legacy)
+            document.querySelectorAll('.skill-reps-input input[type="number"]').forEach(input => {
+                input.value = '';
+            });
+            
+            const wallPassDisplay = document.getElementById('wallPassesDisplay');
+            if (wallPassDisplay) wallPassDisplay.textContent = '0';
+            
+            // Reset bonus minutes slider and display
+            const bonusSlider = document.getElementById('slider-bonus');
+            const bonusValue = document.getElementById('bonusMinutesValue');
+            if (bonusSlider) bonusSlider.value = 0;
+            if (bonusValue) bonusValue.textContent = '0';
+            
+            // Reset bonus category checkboxes
+            document.querySelectorAll('.bonus-category input[type="checkbox"]').forEach(checkbox => {
+                checkbox.checked = false;
+            });
+        }
+
+        // Update slider display values
+        function updateSliderValue(sliderId, value) {
+            const displayElement = document.getElementById(sliderId + 'Value');
+            if (displayElement) {
+                displayElement.textContent = value;
+            }
+        }
+
         function logTraining(event) {
             event.preventDefault();
             console.log('logTraining called, currentPlayer:', currentPlayer);
 
-            const ballMastery = parseInt(document.getElementById('ballMastery').value);
-            const juggling = parseInt(document.getElementById('juggling').value);
-            const wallPassing = parseInt(document.getElementById('wallPassing').value);
-            const jugglingStreak = parseInt(document.getElementById('jugglingStreak').value);
-
-            console.log('Values:', {ballMastery, juggling, wallPassing, jugglingStreak});
-
-            const totalMinutes = ballMastery + juggling + wallPassing;
+            // Check if at least SOME training was logged
+            const anyBallMasteryCompleted = Object.values(sessionData.ballMastery).some(skill => skill.completed === true);
+            const anyWallPassingCompleted = Object.values(sessionData.wallPassing).some(ex => ex.completed === true);
+            const anyJugglingCompleted = Object.values(sessionData.jugglingExercises).some(ex => ex.completed === true);
+            const hasFreestyleJuggling = sessionData.freestyleJuggling > 0;
+            const hasBonusMinutes = sessionData.bonusMinutes > 0;
             
-            if (totalMinutes < 20) {
-                alert('Training sessions should be at least 20 minutes total. Keep pushing! 💪');
+            if (!anyBallMasteryCompleted && !anyWallPassingCompleted && !anyJugglingCompleted && !hasFreestyleJuggling && !hasBonusMinutes) {
+                alert('Please log at least one type of training! 💪');
+                return;
+            }
+
+            // Collect bonus categories if any are checked
+            const bonusCategories = [];
+            document.querySelectorAll('.bonus-category input[type="checkbox"]:checked').forEach(checkbox => {
+                bonusCategories.push(checkbox.value);
+            });
+
+            // If bonus minutes are logged, require at least one category
+            if (sessionData.bonusMinutes > 0 && bonusCategories.length === 0) {
+                alert('If you logged bonus training time, please select what you worked on! ⭐');
                 return;
             }
 
@@ -1784,21 +3399,46 @@
                     return;
                 }
 
-                // Add new session
-                player.sessions.push({
-                    date: new Date().toISOString(),
-                    ballMastery,
-                    juggling,
-                    wallPassing,
-                    jugglingStreak,
-                    totalMinutes
-                });
+                // Calculate ball mastery minutes (2 min per completed skill)
+                const ballMasteryMinutes = Object.values(sessionData.ballMastery)
+                    .filter(skill => skill.completed)
+                    .length * 2;
 
-                player.totalMinutes += totalMinutes;
+                // Calculate wall passing minutes (6 exercises × 2 sets × 1 min = 2 min per exercise)
+                const wallPassingMinutes = Object.values(sessionData.wallPassing)
+                    .filter(ex => ex.completed)
+                    .length * 2;
+
+                // Calculate juggling minutes (5 exercises × 2 sets × 1 min = 2 min per exercise, OR freestyle minutes)
+                const jugglingExerciseMinutes = Object.values(sessionData.jugglingExercises)
+                    .filter(ex => ex.completed)
+                    .length * 2;
+                const jugglingMinutes = sessionData.freestyleJuggling > 0 ? sessionData.freestyleJuggling : jugglingExerciseMinutes;
+
+                const totalMinutes = ballMasteryMinutes + wallPassingMinutes + jugglingMinutes + sessionData.bonusMinutes;
+
+                // Add new session with timed skills data + bonus
+                const newSession = {
+                    date: new Date().toISOString(),
+                    ballMastery: { ...sessionData.ballMastery },
+                    wallPassing: { ...sessionData.wallPassing },
+                    jugglingExercises: { ...sessionData.jugglingExercises },
+                    freestyleJuggling: sessionData.freestyleJuggling,
+                    wallPasses: sessionData.wallPasses, // Legacy field for compatibility
+                    juggling: sessionData.juggling, // Max streak for leaderboard
+                    bonusMinutes: sessionData.bonusMinutes,
+                    bonusCategories: bonusCategories,
+                    totalMinutes: Math.round(totalMinutes)
+                };
+
+                player.sessions.push(newSession);
+
+                // Add to total minutes for stats
+                player.totalMinutes += newSession.totalMinutes;
                 
                 // Update max juggling
-                if (jugglingStreak > player.maxJuggling) {
-                    player.maxJuggling = jugglingStreak;
+                if (sessionData.juggling > player.maxJuggling) {
+                    player.maxJuggling = sessionData.juggling;
                 }
 
                 // Update weekly streak
@@ -1811,6 +3451,7 @@
 
                     // Reset form
                     event.target.reset();
+                    resetSessionData();
 
                     updateDashboard();
                 });
@@ -1820,7 +3461,8 @@
         function getWeekStart(date) {
             const d = new Date(date);
             const day = d.getDay();
-            const diff = d.getDate() - day; // Sunday as start of week
+            // Monday as start of week (convert Sunday from 0 to 7, then subtract 1)
+            const diff = d.getDate() - day + (day === 0 ? -6 : 1);
             return new Date(d.setDate(diff)).setHours(0, 0, 0, 0);
         }
 
@@ -1911,6 +3553,121 @@
             }, 5000);
         }
 
+        // ============================================
+        // NEW UX ENHANCEMENT FUNCTIONS
+        // ============================================
+        
+        /**
+         * Quick Log - One-click logging of prescribed training
+         * Pre-fills sliders with target values (12 min ball mastery = 2 min/skill × 6)
+         */
+        function quickLogPrescribed() {
+            if (!confirm('Log Ball Mastery workout?\n\n✓ All 6 exercises (2 min each × 6 skills)\n\nTotal: 12 minutes')) {
+                return;
+            }
+            
+            // Set prescribed values for ball mastery (all skills completed with 50 reps each as reasonable default)
+            const skills = ['outsideinside', 'soleroll', 'ldrag', 'vcut', 'scissortake', 'stepovertake'];
+            skills.forEach(skill => {
+                sessionData.ballMastery[skill].completed = true;
+                sessionData.ballMastery[skill].reps = 50; // Reasonable default for 2 min
+                const checkItem = document.getElementById(`check-${skill}`);
+                if (checkItem) checkItem.classList.add('checked');
+            });
+            
+            // Change button color to show it's logged
+            document.getElementById('quickLogBallMasteryBtn').classList.add('logged');
+            
+            showToast('Ball Mastery logged! Add other training or click Submit.');
+        }
+        
+        /**
+         * Display previous session stats for accountability
+         */
+        function displayPreviousSession(player) {
+            const previousSessionCard = document.getElementById('previousSessionCard');
+            
+            if (!player.sessions || player.sessions.length === 0) {
+                previousSessionCard.style.display = 'none';
+                return;
+            }
+            
+            const lastSession = player.sessions[player.sessions.length - 1];
+            const sessionDate = new Date(lastSession.date);
+            const now = new Date();
+            const diffTime = Math.abs(now - sessionDate);
+            const diffDays = Math.floor(diffTime / (1000 * 60 * 60 * 24));
+            
+            let dateText = '';
+            if (diffDays === 0) {
+                dateText = 'Earlier today';
+            } else if (diffDays === 1) {
+                dateText = 'Yesterday';
+            } else {
+                dateText = `${diffDays} days ago`;
+            }
+            
+            document.getElementById('prevSessionDate').textContent = dateText;
+            
+            // Calculate stats
+            let ballMasteryMins = 0;
+            let completedSkills = 0;
+            
+            if (lastSession.ballMastery && typeof lastSession.ballMastery === 'object') {
+                const firstSkill = Object.values(lastSession.ballMastery)[0];
+                if (firstSkill && typeof firstSkill === 'object') {
+                    // New format with reps
+                    Object.values(lastSession.ballMastery).forEach(skill => {
+                        if (skill.completed) {
+                            completedSkills++;
+                            ballMasteryMins += 2; // 2 min per skill
+                        }
+                    });
+                } else {
+                    // Old format (number)
+                    ballMasteryMins = lastSession.ballMastery || 0;
+                }
+            } else {
+                ballMasteryMins = lastSession.ballMastery || 0;
+            }
+            
+            const jugglingMins = lastSession.juggling || 0;
+            const wallPassingMins = lastSession.wallPassing || 0;
+            const jugglingStreak = lastSession.jugglingStreak || 0;
+            
+            // Create stats HTML
+            const statsHTML = `
+                <div class="prev-stat ${ballMasteryMins >= 12 ? 'complete' : ''}">
+                    <span class="prev-stat-label">Ball Mastery</span>
+                    <span class="prev-stat-value">${ballMasteryMins} min</span>
+                </div>
+                <div class="prev-stat ${jugglingMins >= 5 ? 'complete' : ''}">
+                    <span class="prev-stat-label">Juggling</span>
+                    <span class="prev-stat-value">${jugglingMins} min</span>
+                </div>
+                <div class="prev-stat ${wallPassingMins >= 5 ? 'complete' : ''}">
+                    <span class="prev-stat-label">Wall Passing</span>
+                    <span class="prev-stat-value">${wallPassingMins} min</span>
+                </div>
+                <div class="prev-stat">
+                    <span class="prev-stat-label">Best Streak</span>
+                    <span class="prev-stat-value">${jugglingStreak}</span>
+                </div>
+            `;
+            
+            document.getElementById('prevSessionStats').innerHTML = statsHTML;
+            previousSessionCard.style.display = 'block';
+        }
+        
+        /**
+         * Pre-fill sliders with target values on page load
+         */
+        function prefillTargetValues() {
+            // This could be called when user wants to see targets
+            // For now, we'll keep sliders at 0 to avoid confusion
+            // Users can use Quick Log for instant prescribed logging
+        }
+
         function updateDashboard() {
             getPlayers((players) => {
                 const player = players[currentPlayer];
@@ -1935,6 +3692,12 @@
                 document.getElementById('totalMinutes').textContent = player.totalMinutes;
                 document.getElementById('weeklyStreak').textContent = player.weeklyStreak || 0;
                 document.getElementById('maxJuggling').textContent = player.maxJuggling;
+                
+                // Calculate total bonus minutes
+                const totalBonusMinutes = player.sessions.reduce((sum, session) => {
+                    return sum + (session.bonusMinutes || 0);
+                }, 0);
+                document.getElementById('bonusMinutesTotal').textContent = totalBonusMinutes;
 
                 // Update weekly progress
                 const thisWeekSessions = getThisWeekSessions(player);
@@ -1942,6 +3705,9 @@
 
                 // Update history
                 updateHistory(player);
+
+                // Display previous session for accountability
+                displayPreviousSession(player);
 
                 // Update leaderboard
                 updateLeaderboard(players);
@@ -2026,20 +3792,51 @@
                 // Calculate the actual index in the full sessions array
                 const actualIndex = player.sessions.length - 1 - displayIndex;
                 
+                // Handle different session formats
+                let details = '';
+                if (session.ballMastery && typeof session.ballMastery === 'object') {
+                    // Check if it's the new timed format (with reps property)
+                    const firstSkill = Object.values(session.ballMastery)[0];
+                    if (firstSkill && typeof firstSkill === 'object' && 'completed' in firstSkill) {
+                        // New timed format with reps
+                        const skillsCompleted = Object.values(session.ballMastery).filter(s => s.completed === true).length;
+                        const totalReps = Object.values(session.ballMastery).reduce((sum, s) => sum + (s.reps || 0), 0);
+                        details = `Skills: ${skillsCompleted}/6 (${totalReps} total reps) · Wall Passes: ${session.wallPasses || 0} · Best Juggle: ${session.juggling || 0}`;
+                    } else {
+                        // Old checkbox format
+                        const skillsCompleted = Object.values(session.ballMastery).filter(v => v === true).length;
+                        details = `Skills: ${skillsCompleted}/5 · Wall Passes: ${session.wallPasses || 0} · Best Juggle: ${session.juggling || 0}`;
+                    }
+                    
+                    // Add bonus info if present
+                    if (session.bonusMinutes && session.bonusMinutes > 0) {
+                        details += ` · ⭐ +${session.bonusMinutes}min`;
+                        if (session.bonusCategories && session.bonusCategories.length > 0) {
+                            const categoryEmojis = {
+                                'shooting': '🎯',
+                                'pickup': '🎮',
+                                'freestyle': '✨',
+                                'agility': '🏃',
+                                'video': '🧠',
+                                'other': '🎨'
+                            };
+                            const icons = session.bonusCategories.map(cat => categoryEmojis[cat] || '').join('');
+                            details += ` ${icons}`;
+                        }
+                    }
+                } else {
+                    // Very old format with minutes
+                    details = `Ball Mastery: ${session.ballMastery}min · Juggling: ${session.juggling}min · Wall Passing: ${session.wallPassing}min · Max Juggles: ${session.jugglingStreak}`;
+                }
+                
                 return `
                     <div class="history-item">
                         <div class="history-content">
                             <div class="history-date">${dateStr}</div>
-                            <div class="history-details">
-                                Ball Mastery: ${session.ballMastery}min · 
-                                Juggling: ${session.juggling}min · 
-                                Wall Passing: ${session.wallPassing}min · 
-                                Max Juggles: ${session.jugglingStreak}
-                            </div>
+                            <div class="history-details">${details}</div>
                         </div>
                         <div class="session-actions">
                             <button class="edit-session-btn" onclick="openEditModal(${actualIndex})">Edit</button>
-                            <button class="delete-session-btn" onclick="deleteSession(${actualIndex})">Delete</button>
                         </div>
                     </div>
                 `;
@@ -2060,28 +3857,45 @@
                 return;
             }
             
-            // Convert to array and sort (exclude COACH)
+            // Get current week start
+            const now = new Date();
+            const weekStart = getWeekStart(now);
+            
+            // Convert to array and calculate weekly stats (exclude COACH)
             const playerArray = Object.entries(players)
                 .filter(([name]) => name !== 'COACH')
-                .map(([name, data]) => ({
-                    name,
-                    sessions: data.sessions ? data.sessions.length : 0,
-                    totalMinutes: data.totalMinutes || 0,
-                    weeklyStreak: data.weeklyStreak || 0,
-                    maxJuggling: data.maxJuggling || 0
-                }));
+                .map(([name, data]) => {
+                    // Filter sessions for this week only
+                    const thisWeekSessions = (data.sessions || []).filter(session => {
+                        const sessionDate = new Date(session.date);
+                        return sessionDate >= weekStart;
+                    });
+                    
+                    // Calculate this week's total minutes
+                    const weeklyMinutes = thisWeekSessions.reduce((sum, session) => {
+                        return sum + (session.totalMinutes || 0);
+                    }, 0);
+                    
+                    return {
+                        name,
+                        weeklySessions: thisWeekSessions.length,
+                        weeklyMinutes: weeklyMinutes,
+                        weeklyStreak: data.weeklyStreak || 0,
+                        maxJuggling: data.maxJuggling || 0
+                    };
+                });
 
             if (playerArray.length === 0) {
                 tbody.innerHTML = '<tr><td colspan="6" style="text-align: center; color: var(--light-blue);">No players have logged training yet</td></tr>';
                 return;
             }
 
-            // Sort by total minutes (primary) and sessions (secondary)
+            // Sort by weekly minutes (primary) and weekly sessions (secondary)
             playerArray.sort((a, b) => {
-                if (b.totalMinutes !== a.totalMinutes) {
-                    return b.totalMinutes - a.totalMinutes;
+                if (b.weeklyMinutes !== a.weeklyMinutes) {
+                    return b.weeklyMinutes - a.weeklyMinutes;
                 }
-                return b.sessions - a.sessions;
+                return b.weeklySessions - a.weeklySessions;
             });
 
             tbody.innerHTML = playerArray.map((player, index) => {
@@ -2098,8 +3912,8 @@
                     <tr style="${rowStyle}">
                         <td class="${rankClass}">${rank}</td>
                         <td class="player-name">${player.name}${isCurrentPlayer ? ' (You)' : ''}</td>
-                        <td>${player.sessions}</td>
-                        <td>${player.totalMinutes}</td>
+                        <td>${player.weeklySessions}</td>
+                        <td>${player.weeklyMinutes}</td>
                         <td>${player.weeklyStreak > 0 ? '🔥 ' : ''}${player.weeklyStreak} ${player.weeklyStreak === 1 ? 'wk' : 'wks'}</td>
                         <td>⚽ ${player.maxJuggling}</td>
                     </tr>
@@ -2157,15 +3971,39 @@
         function updateCoachLeaderboard(playerArray) {
             const tbody = document.getElementById('coachLeaderboardBody');
             
-            // Sort by total minutes
-            playerArray.sort((a, b) => {
-                if (b.totalMinutes !== a.totalMinutes) {
-                    return b.totalMinutes - a.totalMinutes;
+            // Get current week start
+            const now = new Date();
+            const weekStart = getWeekStart(now);
+            
+            // Calculate weekly stats for each player
+            const weeklyPlayerArray = playerArray.map(player => {
+                // Filter sessions for this week only
+                const thisWeekSessions = player.data.sessions.filter(session => {
+                    const sessionDate = new Date(session.date);
+                    return sessionDate >= weekStart;
+                });
+                
+                // Calculate this week's total minutes
+                const weeklyMinutes = thisWeekSessions.reduce((sum, session) => {
+                    return sum + (session.totalMinutes || 0);
+                }, 0);
+                
+                return {
+                    ...player,
+                    weeklySessions: thisWeekSessions.length,
+                    weeklyMinutes: weeklyMinutes
+                };
+            });
+            
+            // Sort by weekly minutes
+            weeklyPlayerArray.sort((a, b) => {
+                if (b.weeklyMinutes !== a.weeklyMinutes) {
+                    return b.weeklyMinutes - a.weeklyMinutes;
                 }
-                return b.sessions - a.sessions;
+                return b.weeklySessions - a.weeklySessions;
             });
 
-            tbody.innerHTML = playerArray.map((player, index) => {
+            tbody.innerHTML = weeklyPlayerArray.map((player, index) => {
                 const rank = index + 1;
                 let rankClass = 'rank';
                 if (rank === 1) rankClass += ' rank-1';
@@ -2180,8 +4018,8 @@
                     <tr>
                         <td class="${rankClass}">${rank}</td>
                         <td class="player-name">${player.name}</td>
-                        <td>${player.sessions}</td>
-                        <td>${player.totalMinutes}</td>
+                        <td>${player.weeklySessions}</td>
+                        <td>${player.weeklyMinutes}</td>
                         <td>${player.weeklyStreak > 0 ? '🔥 ' : ''}${player.weeklyStreak} ${player.weeklyStreak === 1 ? 'wk' : 'wks'}</td>
                         <td>⚽ ${player.maxJuggling}</td>
                         <td>${lastSessionDate}</td>
@@ -2639,6 +4477,12 @@
                 document.getElementById('editJuggling').value = session.juggling;
                 document.getElementById('editJugglingStreak').value = session.jugglingStreak;
                 document.getElementById('editWallPassing').value = session.wallPassing;
+                
+                // Update slider displays
+                updateSliderValue('editBallMastery', session.ballMastery);
+                updateSliderValue('editJuggling', session.juggling);
+                updateSliderValue('editJugglingStreak', session.jugglingStreak);
+                updateSliderValue('editWallPassing', session.wallPassing);
                 
                 // Show modal
                 document.getElementById('editModal').classList.add('active');
