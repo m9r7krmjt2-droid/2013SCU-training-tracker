@@ -493,7 +493,7 @@
         }
 
         .training-history {
-            max-height: 400px;
+            max-height: 200px;
             overflow-y: auto;
             margin-top: 20px;
         }
@@ -2016,19 +2016,21 @@
                 <h2 id="welcomeMessage" style="color: var(--bright-yellow); font-size: 2.5rem; margin: 0;">Welcome Back!</h2>
             </div>
 
-            <!-- PREVIOUS SESSION DISPLAY -->
-            <div id="previousSessionCard" class="previous-session-card" style="display: none;">
-                <div class="previous-session-header">
-                    <div class="previous-session-title">📊 Last Training Session</div>
-                    <div class="previous-session-date" id="prevSessionDate"></div>
-                </div>
-                <div class="previous-session-stats" id="prevSessionStats">
-                    <!-- Dynamically populated -->
-                </div>
-            </div>
-            
             <div class="card">
-                <h2>Your Stats</h2>
+                <h2>📊 Your Stats</h2>
+                
+                <!-- Last Session Summary -->
+                <div id="lastSessionSummary" style="display: none; background: rgba(77, 166, 255, 0.1); border-left: 4px solid var(--light-blue); padding: 15px; margin-bottom: 25px; border-radius: 8px;">
+                    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px;">
+                        <div style="color: var(--bright-yellow); font-weight: 600; font-size: 0.95rem;">Last Session</div>
+                        <div id="lastSessionDate" style="color: var(--light-blue); font-size: 0.85rem;"></div>
+                    </div>
+                    <div id="lastSessionDetails" style="color: var(--text-light); font-size: 0.9rem; line-height: 1.6;">
+                        <!-- Dynamically populated -->
+                    </div>
+                </div>
+                
+                <!-- Stats Grid -->
                 <div class="stat-grid">
                     <div class="stat-box">
                         <div class="stat-number" id="totalSessions">0</div>
@@ -2060,49 +2062,30 @@
                 <h2>⚽ Ball Mastery</h2>
                 
                 <!-- Ball Mastery Explanation -->
-                <div style="background: rgba(77, 166, 255, 0.1); border-left: 4px solid var(--light-blue); padding: 15px; margin-bottom: 20px; border-radius: 8px;">
-                    <div style="color: var(--bright-yellow); font-weight: 600; margin-bottom: 8px; font-size: 1rem;">Prescribed Training</div>
-                    <div style="color: var(--text-light); font-size: 0.95rem; line-height: 1.6;">
-                        <strong>1 minute sets, 2 sets of each:</strong><br>
-                        Outside Inside • Double Touch Sole Roll • L-drag • V-cut • Scissor Take • Step Over Take
+                <div style="background: rgba(77, 166, 255, 0.1); border-left: 4px solid var(--light-blue); padding: 15px; margin-bottom: 20px; border-radius: 8px; display: flex; justify-content: space-between; align-items: center; gap: 15px;">
+                    <div style="flex: 1;">
+                        <div style="color: var(--bright-yellow); font-weight: 600; margin-bottom: 8px; font-size: 1rem;">📋 Prescribed Training</div>
+                        <div style="color: var(--text-light); font-size: 0.95rem; line-height: 1.6;">
+                            <strong>1 minute sets, 2 sets of each:</strong><br>
+                            Outside Inside • Double Touch Sole Roll • L-drag • V-cut • Scissor Take • Step Over Take
+                        </div>
                     </div>
+                    <a href="https://www.youtube.com/watch?v=su_mu700bfw" target="_blank" 
+                       style="display: inline-flex; align-items: center; gap: 8px; padding: 10px 16px; background: linear-gradient(135deg, #ff0000, #cc0000); color: white; text-decoration: none; border-radius: 8px; font-weight: 600; font-size: 0.85rem; transition: all 0.3s; box-shadow: 0 3px 10px rgba(255, 0, 0, 0.3); white-space: nowrap; flex-shrink: 0;"
+                       onmouseover="this.style.transform='translateY(-2px)'; this.style.boxShadow='0 5px 15px rgba(255, 0, 0, 0.5)';"
+                       onmouseout="this.style.transform='translateY(0)'; this.style.boxShadow='0 3px 10px rgba(255, 0, 0, 0.3)';">
+                        <span style="font-size: 1.1rem;">▶️</span>
+                        <span style="display: inline-block;">Video Tutorial</span>
+                    </a>
                 </div>
                 
-                <!-- QUICK LOG BUTTON -->
-                <button type="button" class="quick-log-btn" id="quickLogBallMasteryBtn" onclick="quickLogPrescribed()">
-                    ✨ Quick Log: Completed All Ball Mastery
-                    <span class="quick-log-subtitle">All 6 exercises (2 sets × 1 min each) = 12 minutes</span>
-                </button>
-                
-                <!-- Individual Exercise Checkboxes -->
+                <!-- Single Time Slider -->
                 <div style="padding: 15px; background: rgba(0, 8, 20, 0.3); border-radius: 12px;">
-                    <p style="color: var(--light-blue); opacity: 0.8; font-size: 0.85rem; margin-bottom: 15px;">Or check individual exercises (2 sets × 1 min each):</p>
-                    <div style="display: flex; flex-direction: column; gap: 8px;">
-                        <div class="simple-checkbox-item" id="check-outsideinside" onclick="toggleSimpleCheckbox('outsideinside')">
-                            <div class="simple-checkbox"></div>
-                            <span>Outside Inside</span>
-                        </div>
-                        <div class="simple-checkbox-item" id="check-soleroll" onclick="toggleSimpleCheckbox('soleroll')">
-                            <div class="simple-checkbox"></div>
-                            <span>Double Touch Sole Roll</span>
-                        </div>
-                        <div class="simple-checkbox-item" id="check-ldrag" onclick="toggleSimpleCheckbox('ldrag')">
-                            <div class="simple-checkbox"></div>
-                            <span>L-drag</span>
-                        </div>
-                        <div class="simple-checkbox-item" id="check-vcut" onclick="toggleSimpleCheckbox('vcut')">
-                            <div class="simple-checkbox"></div>
-                            <span>V-cut</span>
-                        </div>
-                        <div class="simple-checkbox-item" id="check-scissortake" onclick="toggleSimpleCheckbox('scissortake')">
-                            <div class="simple-checkbox"></div>
-                            <span>Scissor Take</span>
-                        </div>
-                        <div class="simple-checkbox-item" id="check-stepovertake" onclick="toggleSimpleCheckbox('stepovertake')">
-                            <div class="simple-checkbox"></div>
-                            <span>Step Over Take</span>
-                        </div>
-                    </div>
+                    <label style="display: block; margin-bottom: 10px; color: var(--bright-yellow); font-weight: 600; font-size: 0.95rem;">Minutes Trained: <span id="ballMasteryValue">0</span> minutes</label>
+                    <input type="range" min="0" max="60" value="0" class="slider" id="slider-ballmastery" 
+                           oninput="updateBallMasteryMinutes(this.value)" 
+                           style="width: 100%; margin-bottom: 8px;">
+                    <p style="color: var(--light-blue); opacity: 0.7; font-size: 0.85rem;">Log total time spent on ball mastery skills (prescribed or freestyle)</p>
                 </div>
             </div>
 
@@ -2112,48 +2095,20 @@
                 
                 <!-- Wall Passing Explanation -->
                 <div style="background: rgba(77, 166, 255, 0.1); border-left: 4px solid var(--light-blue); padding: 15px; margin-bottom: 15px; border-radius: 8px;">
-                    <div style="color: var(--bright-yellow); font-weight: 600; margin-bottom: 8px; font-size: 1rem;">Prescribed Training</div>
+                    <div style="color: var(--bright-yellow); font-weight: 600; margin-bottom: 8px; font-size: 1rem;">📋 Prescribed Training</div>
                     <div style="color: var(--text-light); font-size: 0.95rem; line-height: 1.6;">
                         <strong>1 minute sets, 2 sets of each:</strong><br>
                         2 Touch R Foot • 2 Touch L Foot • 1 Touch R Foot • 1 Touch L Foot • Inside Touch Alternate L/R • Roll Touch Alternate L/R
                     </div>
                 </div>
 
-                <!-- Quick Log Wall Passing Button -->
-                <button type="button" class="quick-log-btn" id="quickLogWallPassingBtn" onclick="quickLogWallPassing()" style="margin-bottom: 15px;">
-                    ✨ Quick Log: Completed All Wall Passing
-                    <span class="quick-log-subtitle">All 6 exercises (2 sets × 1 min each) = 12 minutes</span>
-                </button>
-
-                <!-- Individual Exercise Checkboxes -->
+                <!-- Single Time Slider -->
                 <div style="padding: 15px; background: rgba(0, 8, 20, 0.3); border-radius: 12px;">
-                    <p style="color: var(--light-blue); opacity: 0.8; font-size: 0.85rem; margin-bottom: 15px;">Or check individual exercises (2 sets × 1 min each):</p>
-                    <div style="display: flex; flex-direction: column; gap: 8px;">
-                        <div class="simple-checkbox-item" id="check-2touchrfoot" onclick="toggleWallPassingCheckbox('2touchrfoot')">
-                            <div class="simple-checkbox"></div>
-                            <span>2 Touch R Foot</span>
-                        </div>
-                        <div class="simple-checkbox-item" id="check-2touchlfoot" onclick="toggleWallPassingCheckbox('2touchlfoot')">
-                            <div class="simple-checkbox"></div>
-                            <span>2 Touch L Foot</span>
-                        </div>
-                        <div class="simple-checkbox-item" id="check-1touchrfoot" onclick="toggleWallPassingCheckbox('1touchrfoot')">
-                            <div class="simple-checkbox"></div>
-                            <span>1 Touch R Foot</span>
-                        </div>
-                        <div class="simple-checkbox-item" id="check-1touchlfoot" onclick="toggleWallPassingCheckbox('1touchlfoot')">
-                            <div class="simple-checkbox"></div>
-                            <span>1 Touch L Foot</span>
-                        </div>
-                        <div class="simple-checkbox-item" id="check-insidetouchalternate" onclick="toggleWallPassingCheckbox('insidetouchalternate')">
-                            <div class="simple-checkbox"></div>
-                            <span>Inside Touch Alternate L/R</span>
-                        </div>
-                        <div class="simple-checkbox-item" id="check-rolltouchalternate" onclick="toggleWallPassingCheckbox('rolltouchalternate')">
-                            <div class="simple-checkbox"></div>
-                            <span>Roll Touch Alternate L/R</span>
-                        </div>
-                    </div>
+                    <label style="display: block; margin-bottom: 10px; color: var(--bright-yellow); font-weight: 600; font-size: 0.95rem;">Minutes Trained: <span id="wallPassingValue">0</span> minutes</label>
+                    <input type="range" min="0" max="60" value="0" class="slider" id="slider-wallpassing" 
+                           oninput="updateWallPassingMinutes(this.value)" 
+                           style="width: 100%; margin-bottom: 8px;">
+                    <p style="color: var(--light-blue); opacity: 0.7; font-size: 0.85rem;">Log total time spent on wall passing skills (prescribed or freestyle)</p>
                 </div>
             </div>
 
@@ -2164,62 +2119,45 @@
                 <div style="margin-bottom: 0;">
                     <!-- Juggling Explanation -->
                     <div style="background: rgba(77, 166, 255, 0.1); border-left: 4px solid var(--light-blue); padding: 15px; margin-bottom: 15px; border-radius: 8px;">
-                        <div style="color: var(--bright-yellow); font-weight: 600; margin-bottom: 8px; font-size: 1rem;">Prescribed Training</div>
+                        <div style="color: var(--bright-yellow); font-weight: 600; margin-bottom: 8px; font-size: 1rem;">📋 Prescribed Training</div>
                         <div style="color: var(--text-light); font-size: 0.95rem; line-height: 1.6;">
                             <strong>1 minute sets, 2 sets of each:</strong><br>
                             L Foot • R Foot • Alternating Feet • Thighs • Maximum Streak
                         </div>
                     </div>
 
-                    <!-- Quick Log Juggling Button -->
-                    <button type="button" class="quick-log-btn" id="quickLogJugglingBtn" onclick="quickLogJuggling()" style="margin-bottom: 15px;">
-                        ✨ Quick Log: Completed All Juggling
-                        <span class="quick-log-subtitle">All 5 exercises (2 sets × 1 min each) = 10 minutes</span>
-                    </button>
-
-                    <!-- Individual Exercises -->
+                    <!-- Single Time Slider -->
                     <div style="padding: 15px; background: rgba(0, 8, 20, 0.3); border-radius: 12px; margin-bottom: 15px;">
-                        <p style="color: var(--light-blue); opacity: 0.8; font-size: 0.85rem; margin-bottom: 15px;">Or check individual exercises (2 sets × 1 min each):</p>
-                        <div style="display: flex; flex-direction: column; gap: 8px;">
-                            <div class="simple-checkbox-item" id="check-lfoot" onclick="toggleJugglingCheckbox('lfoot')">
-                                <div class="simple-checkbox"></div>
-                                <span>L Foot</span>
-                            </div>
-                            <div class="simple-checkbox-item" id="check-rfoot" onclick="toggleJugglingCheckbox('rfoot')">
-                                <div class="simple-checkbox"></div>
-                                <span>R Foot</span>
-                            </div>
-                            <div class="simple-checkbox-item" id="check-alternatingfeet" onclick="toggleJugglingCheckbox('alternatingfeet')">
-                                <div class="simple-checkbox"></div>
-                                <span>Alternating Feet</span>
-                            </div>
-                            <div class="simple-checkbox-item" id="check-thighs" onclick="toggleJugglingCheckbox('thighs')">
-                                <div class="simple-checkbox"></div>
-                                <span>Thighs</span>
-                            </div>
-                            <div class="simple-checkbox-item" id="check-maxstreak" onclick="toggleJugglingCheckbox('maxstreak')">
-                                <div class="simple-checkbox"></div>
-                                <span>Maximum Streak</span>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Freestyle Option -->
-                    <div style="padding: 15px; background: rgba(0, 8, 20, 0.3); border-radius: 12px; margin-bottom: 15px;">
-                        <label style="display: block; margin-bottom: 10px; color: var(--bright-yellow); font-weight: 600; font-size: 0.95rem;">Or Freestyle Juggling: <span id="freestyleJugglingValue">0</span> minutes</label>
-                        <input type="range" min="0" max="30" value="0" class="slider" id="slider-freestyle" 
-                               oninput="updateFreestyleJuggling(this.value)" 
+                        <label style="display: block; margin-bottom: 10px; color: var(--bright-yellow); font-weight: 600; font-size: 0.95rem;">Minutes Trained: <span id="jugglingMinutesValue">0</span> minutes</label>
+                        <input type="range" min="0" max="60" value="0" class="slider" id="slider-jugglingminutes" 
+                               oninput="updateJugglingMinutes(this.value)" 
                                style="width: 100%; margin-bottom: 8px;">
-                        <p style="color: var(--light-blue); opacity: 0.7; font-size: 0.85rem;">Did your own juggling routine? Log total minutes here</p>
+                        <p style="color: var(--light-blue); opacity: 0.7; font-size: 0.85rem;">Log total time spent on juggling (prescribed or freestyle)</p>
                     </div>
 
                     <!-- Max Streak Tracker (Optional) -->
-                    <div style="padding: 15px; background: rgba(0, 8, 20, 0.3); border-radius: 12px;">
-                        <label style="display: block; margin-bottom: 10px; color: var(--bright-yellow); font-weight: 600; font-size: 0.95rem;">Best Streak Today: <span id="jugglingValue">0</span> touches</label>
-                        <input type="range" min="0" max="1000" value="0" class="slider" id="slider-juggling" 
-                               oninput="updateJugglingStreak(this.value)" 
-                               style="width: 100%; margin-bottom: 8px;">
-                        <p style="color: var(--light-blue); opacity: 0.7; font-size: 0.85rem;">Track your longest streak for the leaderboard</p>
+                    <div style="padding: 20px; background: rgba(0, 8, 20, 0.5); border-radius: 12px; text-align: center;">
+                        <div style="color: var(--bright-yellow); font-weight: 600; font-size: 1rem; margin-bottom: 15px; text-transform: uppercase; letter-spacing: 1px;">
+                            🏆 Best Juggling Streak Today
+                        </div>
+                        
+                        <input type="text" 
+                               inputmode="numeric"
+                               pattern="[0-9]*"
+                               id="juggling-number-input"
+                               name="juggling-streak"
+                               maxlength="4"
+                               value="0"
+                               placeholder="000"
+                               autocomplete="off"
+                               data-form-type="other"
+                               data-lpignore="true"
+                               oninput="updateJugglingFromNumber(this.value)"
+                               style="width: 100%; max-width: 300px; padding: 20px; background: #000; border: 5px solid var(--bright-yellow); border-radius: 12px; color: #fff; font-size: 4rem; font-family: 'Courier New', 'Monaco', monospace; text-align: center; font-weight: bold; letter-spacing: 8px; text-shadow: 0 0 20px rgba(255, 255, 255, 0.8), 0 0 40px rgba(255, 255, 255, 0.5), 0 0 60px rgba(255, 255, 255, 0.3); box-shadow: 0 0 30px rgba(255, 214, 0, 0.6), 0 0 50px rgba(255, 214, 0, 0.4), 0 8px 40px rgba(77, 166, 255, 0.8), inset 0 0 30px rgba(255, 255, 255, 0.1);">
+                        
+                        <p style="color: var(--light-blue); opacity: 0.8; font-size: 0.9rem; margin-top: 15px;">
+                            Tap to enter your max consecutive touches
+                        </p>
                     </div>
                 </div>
             </div>
@@ -2396,71 +2334,25 @@
                 <h2 class="modal-title">Edit Session</h2>
                 <button class="modal-close" onclick="closeEditModal()">×</button>
             </div>
-            <p style="color: var(--light-blue); margin-bottom: 20px; font-size: 0.9rem;">Adjust your session's training minutes and best juggling streak</p>
+            <p style="color: var(--light-blue); margin-bottom: 20px; font-size: 0.9rem;">Adjust your session's total minutes and best juggling streak</p>
             
             <div class="slider-container">
                 <div class="slider-header">
-                    <span class="slider-label">⚽ Ball Mastery</span>
-                    <span class="slider-value" id="editBallMasteryValue">0</span>
+                    <span class="slider-label">⏱️ Total Training Minutes</span>
+                    <span class="slider-value" id="editTotalMinutesValue">0</span>
                 </div>
-                <input type="range" id="editBallMastery" min="0" max="30" value="0" 
-                       oninput="updateSliderValue('editBallMastery', this.value); updateEditTotal()">
+                <input type="range" id="editTotalMinutes" min="0" max="90" value="0" 
+                       oninput="updateSliderValue('editTotalMinutes', this.value)">
                 <div class="slider-markers">
                     <span>0 min</span>
-                    <span>15 min</span>
-                    <span>30 min</span>
+                    <span>45 min</span>
+                    <span>90 min</span>
                 </div>
             </div>
             
             <div class="slider-container">
                 <div class="slider-header">
-                    <span class="slider-label">🎯 Wall Passing</span>
-                    <span class="slider-value" id="editWallPassingValue">0</span>
-                </div>
-                <input type="range" id="editWallPassing" min="0" max="30" value="0" 
-                       oninput="updateSliderValue('editWallPassing', this.value); updateEditTotal()">
-                <div class="slider-markers">
-                    <span>0 min</span>
-                    <span>15 min</span>
-                    <span>30 min</span>
-                </div>
-            </div>
-            
-            <div class="slider-container">
-                <div class="slider-header">
-                    <span class="slider-label">🤹 Juggling</span>
-                    <span class="slider-value" id="editJugglingValue">0</span>
-                </div>
-                <input type="range" id="editJuggling" min="0" max="30" value="0" 
-                       oninput="updateSliderValue('editJuggling', this.value); updateEditTotal()">
-                <div class="slider-markers">
-                    <span>0 min</span>
-                    <span>15 min</span>
-                    <span>30 min</span>
-                </div>
-            </div>
-            
-            <div class="slider-container">
-                <div class="slider-header">
-                    <span class="slider-label">⭐ Bonus Training</span>
-                    <span class="slider-value" id="editBonusValue">0</span>
-                </div>
-                <input type="range" id="editBonus" min="0" max="30" value="0" 
-                       oninput="updateSliderValue('editBonus', this.value); updateEditTotal()">
-                <div class="slider-markers">
-                    <span>0 min</span>
-                    <span>15 min</span>
-                    <span>30 min</span>
-                </div>
-            </div>
-            
-            <div style="background: rgba(77, 166, 255, 0.1); border: 2px solid var(--light-blue); border-radius: 8px; padding: 12px; margin-bottom: 20px; text-align: center;">
-                <span style="color: var(--bright-yellow); font-weight: 700; font-size: 1.1rem;">Total: <span id="editTotalDisplay">0</span> minutes</span>
-            </div>
-            
-            <div class="slider-container">
-                <div class="slider-header">
-                    <span class="slider-label">🏆 Best Juggle Streak</span>
+                    <span class="slider-label">🏆 Best Juggling Streak</span>
                     <span class="slider-value" id="editJugglingStreakValue">0</span>
                 </div>
                 <input type="range" id="editJugglingStreak" min="0" max="1000" value="0"
@@ -3027,7 +2919,10 @@
                 'thighs': { completed: false },
                 'maxstreak': { completed: false }
             },
-            freestyleJuggling: 0, // Minutes of freestyle juggling
+            ballMasteryMinutes: 0, // New: direct minute tracking
+            wallPassingMinutes: 0, // New: direct minute tracking
+            jugglingMinutes: 0, // New: direct minute tracking
+            freestyleJuggling: 0, // Legacy - kept for compatibility
             wallPasses: 0, // Legacy - kept for compatibility
             juggling: 0, // Max streak for leaderboard
             bonusMinutes: 0,
@@ -3178,9 +3073,33 @@
             }
         }
 
-        function updateJugglingStreak(value) {
-            sessionData.juggling = parseInt(value);
-            document.getElementById('jugglingValue').textContent = value;
+        function updateBallMasteryMinutes(value) {
+            sessionData.ballMasteryMinutes = parseInt(value);
+            document.getElementById('ballMasteryValue').textContent = value;
+        }
+
+        function updateWallPassingMinutes(value) {
+            sessionData.wallPassingMinutes = parseInt(value);
+            document.getElementById('wallPassingValue').textContent = value;
+        }
+
+        function updateJugglingMinutes(value) {
+            sessionData.jugglingMinutes = parseInt(value);
+            document.getElementById('jugglingMinutesValue').textContent = value;
+        }
+
+        function updateJugglingFromNumber(value) {
+            // Filter out non-numeric characters
+            const numericValue = value.replace(/[^0-9]/g, '');
+            const numValue = parseInt(numericValue) || 0;
+            const clampedValue = Math.min(Math.max(numValue, 0), 1000);
+            sessionData.juggling = clampedValue;
+            
+            // Update the input to show only numeric value
+            const input = document.getElementById('juggling-number-input');
+            if (input && numericValue !== value) {
+                input.value = numericValue;
+            }
         }
 
         function updateBonusMinutes(value) {
@@ -3274,6 +3193,9 @@
                     'thighs': { completed: false },
                     'maxstreak': { completed: false }
                 },
+                ballMasteryMinutes: 0,
+                wallPassingMinutes: 0,
+                jugglingMinutes: 0,
                 freestyleJuggling: 0,
                 wallPasses: 0,
                 juggling: 0,
@@ -3281,64 +3203,24 @@
                 bonusCategories: []
             };
             
-            // Reset Quick Log button colors
-            const ballMasteryBtn = document.getElementById('quickLogBallMasteryBtn');
-            const wallPassingBtn = document.getElementById('quickLogWallPassingBtn');
-            const jugglingBtn = document.getElementById('quickLogJugglingBtn');
-            if (ballMasteryBtn) ballMasteryBtn.classList.remove('logged');
-            if (wallPassingBtn) wallPassingBtn.classList.remove('logged');
-            if (jugglingBtn) jugglingBtn.classList.remove('logged');
+            // Reset new minute tracking sliders
+            const ballMasterySlider = document.getElementById('slider-ballmastery');
+            const wallPassingSlider = document.getElementById('slider-wallpassing');
+            const jugglingMinutesSlider = document.getElementById('slider-jugglingminutes');
+            const ballMasteryValue = document.getElementById('ballMasteryValue');
+            const wallPassingValue = document.getElementById('wallPassingValue');
+            const jugglingMinutesValue = document.getElementById('jugglingMinutesValue');
             
-            // Reset ball mastery checkboxes
-            ['outsideinside', 'soleroll', 'ldrag', 'vcut', 'scissortake', 'stepovertake'].forEach(skill => {
-                const checkItem = document.getElementById(`check-${skill}`);
-                if (checkItem) checkItem.classList.remove('checked');
-            });
+            if (ballMasterySlider) ballMasterySlider.value = 0;
+            if (wallPassingSlider) wallPassingSlider.value = 0;
+            if (jugglingMinutesSlider) jugglingMinutesSlider.value = 0;
+            if (ballMasteryValue) ballMasteryValue.textContent = '0';
+            if (wallPassingValue) wallPassingValue.textContent = '0';
+            if (jugglingMinutesValue) jugglingMinutesValue.textContent = '0';
             
-            // Reset wall passing checkboxes
-            ['2touchrfoot', '2touchlfoot', '1touchrfoot', '1touchlfoot', 'insidetouchalternate', 'rolltouchalternate'].forEach(exercise => {
-                const checkItem = document.getElementById(`check-${exercise}`);
-                if (checkItem) checkItem.classList.remove('checked');
-            });
-            
-            // Reset juggling checkboxes
-            ['lfoot', 'rfoot', 'alternatingfeet', 'thighs', 'maxstreak'].forEach(exercise => {
-                const checkItem = document.getElementById(`check-${exercise}`);
-                if (checkItem) checkItem.classList.remove('checked');
-            });
-            
-            // Reset freestyle juggling slider and display
-            const freestyleSlider = document.getElementById('slider-freestyle');
-            const freestyleValue = document.getElementById('freestyleJugglingValue');
-            if (freestyleSlider) freestyleSlider.value = 0;
-            if (freestyleValue) freestyleValue.textContent = '0';
-            
-            // Reset juggling streak slider and display
-            const jugglingSlider = document.getElementById('slider-juggling');
-            const jugglingValue = document.getElementById('jugglingValue');
-            if (jugglingSlider) jugglingSlider.value = 0;
-            if (jugglingValue) jugglingValue.textContent = '0';
-            
-            // Reset UI - works for all skill item types
-            document.querySelectorAll('.skill-item, .skill-item-compact, .skill-item-timed, .skill-item-slider').forEach(item => {
-                item.classList.remove('completed');
-            });
-            
-            // Reset sliders and their displays
-            ['outsideinside', 'soleroll', 'ldrag', 'vcut', 'scissortake', 'stepovertake'].forEach(skill => {
-                const slider = document.getElementById(`slider-${skill}`);
-                const display = document.getElementById(`reps-${skill}`);
-                if (slider) slider.value = 0;
-                if (display) display.textContent = '0';
-            });
-            
-            // Reset rep inputs (legacy)
-            document.querySelectorAll('.skill-reps-input input[type="number"]').forEach(input => {
-                input.value = '';
-            });
-            
-            const wallPassDisplay = document.getElementById('wallPassesDisplay');
-            if (wallPassDisplay) wallPassDisplay.textContent = '0';
+            // Reset juggling streak number input
+            const jugglingNumberInput = document.getElementById('juggling-number-input');
+            if (jugglingNumberInput) jugglingNumberInput.value = 0;
             
             // Reset bonus minutes slider and display
             const bonusSlider = document.getElementById('slider-bonus');
@@ -3364,14 +3246,13 @@
             event.preventDefault();
             console.log('logTraining called, currentPlayer:', currentPlayer);
 
-            // Check if at least SOME training was logged
-            const anyBallMasteryCompleted = Object.values(sessionData.ballMastery).some(skill => skill.completed === true);
-            const anyWallPassingCompleted = Object.values(sessionData.wallPassing).some(ex => ex.completed === true);
-            const anyJugglingCompleted = Object.values(sessionData.jugglingExercises).some(ex => ex.completed === true);
-            const hasFreestyleJuggling = sessionData.freestyleJuggling > 0;
+            // Check if at least SOME training was logged using new minute tracking
+            const hasBallMasteryMinutes = sessionData.ballMasteryMinutes > 0;
+            const hasWallPassingMinutes = sessionData.wallPassingMinutes > 0;
+            const hasJugglingMinutes = sessionData.jugglingMinutes > 0;
             const hasBonusMinutes = sessionData.bonusMinutes > 0;
             
-            if (!anyBallMasteryCompleted && !anyWallPassingCompleted && !anyJugglingCompleted && !hasFreestyleJuggling && !hasBonusMinutes) {
+            if (!hasBallMasteryMinutes && !hasWallPassingMinutes && !hasJugglingMinutes && !hasBonusMinutes) {
                 alert('Please log at least one type of training! 💪');
                 return;
             }
@@ -3411,44 +3292,19 @@
                     player.lastWeekSessions = 0;
                 }
                 
-                const today = new Date().toDateString();
-                
-                // Check if already logged today
-                const alreadyLoggedToday = player.sessions.some(session => 
-                    new Date(session.date).toDateString() === today
-                );
-
-                if (alreadyLoggedToday) {
-                    alert('You already logged training for today! Come back tomorrow to keep your streak going! 🔥');
-                    return;
-                }
-
-                // Calculate ball mastery minutes (2 min per completed skill)
-                const ballMasteryMinutes = Object.values(sessionData.ballMastery)
-                    .filter(skill => skill.completed)
-                    .length * 2;
-
-                // Calculate wall passing minutes (6 exercises × 2 sets × 1 min = 2 min per exercise)
-                const wallPassingMinutes = Object.values(sessionData.wallPassing)
-                    .filter(ex => ex.completed)
-                    .length * 2;
-
-                // Calculate juggling minutes (5 exercises × 2 sets × 1 min = 2 min per exercise, OR freestyle minutes)
-                const jugglingExerciseMinutes = Object.values(sessionData.jugglingExercises)
-                    .filter(ex => ex.completed)
-                    .length * 2;
-                const jugglingMinutes = sessionData.freestyleJuggling > 0 ? sessionData.freestyleJuggling : jugglingExerciseMinutes;
+                // Use the direct minute tracking from sliders
+                const ballMasteryMinutes = sessionData.ballMasteryMinutes;
+                const wallPassingMinutes = sessionData.wallPassingMinutes;
+                const jugglingMinutes = sessionData.jugglingMinutes;
 
                 const totalMinutes = ballMasteryMinutes + wallPassingMinutes + jugglingMinutes + sessionData.bonusMinutes;
 
-                // Add new session with timed skills data + bonus
+                // Add new session with simplified data structure
                 const newSession = {
                     date: new Date().toISOString(),
-                    ballMastery: { ...sessionData.ballMastery },
-                    wallPassing: { ...sessionData.wallPassing },
-                    jugglingExercises: { ...sessionData.jugglingExercises },
-                    freestyleJuggling: sessionData.freestyleJuggling,
-                    wallPasses: sessionData.wallPasses, // Legacy field for compatibility
+                    ballMasteryMinutes: ballMasteryMinutes,
+                    wallPassingMinutes: wallPassingMinutes,
+                    jugglingMinutes: jugglingMinutes,
                     juggling: sessionData.juggling, // Max streak for leaderboard
                     bonusMinutes: sessionData.bonusMinutes,
                     bonusCategories: bonusCategories,
@@ -3609,10 +3465,10 @@
          * Display previous session stats for accountability
          */
         function displayPreviousSession(player) {
-            const previousSessionCard = document.getElementById('previousSessionCard');
+            const lastSessionSummary = document.getElementById('lastSessionSummary');
             
             if (!player.sessions || player.sessions.length === 0) {
-                previousSessionCard.style.display = 'none';
+                lastSessionSummary.style.display = 'none';
                 return;
             }
             
@@ -3631,84 +3487,34 @@
                 dateText = `${diffDays} days ago`;
             }
             
-            document.getElementById('prevSessionDate').textContent = dateText;
+            document.getElementById('lastSessionDate').textContent = dateText;
             
-            // Check if session has edited minutes (from edit modal), otherwise calculate from structure
-            let ballMasteryMins = 0;
-            if (lastSession.editedBallMasteryMins !== undefined) {
-                ballMasteryMins = lastSession.editedBallMasteryMins;
-            } else if (lastSession.ballMastery && typeof lastSession.ballMastery === 'object') {
-                Object.values(lastSession.ballMastery).forEach(skill => {
-                    if (skill && skill.completed) {
-                        ballMasteryMins += 2; // 2 min per completed skill
-                    }
-                });
-            }
+            // Use new simplified minute tracking if available, otherwise fall back to old calculation
+            const ballMasteryMins = lastSession.ballMasteryMinutes || 
+                (lastSession.ballMastery ? Object.values(lastSession.ballMastery).filter(s => s.completed).length * 2 : 0);
             
-            // Calculate wall passing minutes
-            let wallPassingMins = 0;
-            if (lastSession.editedWallPassingMins !== undefined) {
-                wallPassingMins = lastSession.editedWallPassingMins;
-            } else if (lastSession.wallPassing && typeof lastSession.wallPassing === 'object') {
-                Object.values(lastSession.wallPassing).forEach(exercise => {
-                    if (exercise && exercise.completed) {
-                        wallPassingMins += 2; // 2 min per completed exercise
-                    }
-                });
-            }
+            const wallPassingMins = lastSession.wallPassingMinutes || 
+                (lastSession.wallPassing ? Object.values(lastSession.wallPassing).filter(e => e.completed).length * 2 : 0);
             
-            // Calculate juggling minutes
-            let jugglingMins = 0;
-            if (lastSession.editedJugglingMins !== undefined) {
-                jugglingMins = lastSession.editedJugglingMins;
-            } else {
-                if (lastSession.jugglingExercises && typeof lastSession.jugglingExercises === 'object') {
-                    Object.values(lastSession.jugglingExercises).forEach(exercise => {
-                        if (exercise && exercise.completed) {
-                            jugglingMins += 2; // 2 min per completed exercise
-                        }
-                    });
-                }
-                // Add freestyle juggling if present
-                if (lastSession.freestyleJuggling) {
-                    jugglingMins += lastSession.freestyleJuggling;
-                }
-            }
+            const jugglingMins = lastSession.jugglingMinutes || 
+                (lastSession.jugglingExercises ? Object.values(lastSession.jugglingExercises).filter(e => e.completed).length * 2 : 0) +
+                (lastSession.freestyleJuggling || 0);
             
-            // Get juggling streak
             const jugglingStreak = lastSession.juggling || lastSession.jugglingStreak || 0;
-            
-            // Get bonus minutes if present
             const bonusMins = lastSession.bonusMinutes || 0;
             
-            // Create stats HTML
-            const statsHTML = `
-                <div class="prev-stat ${ballMasteryMins >= 12 ? 'complete' : ''}">
-                    <span class="prev-stat-label">⚽ Ball Mastery</span>
-                    <span class="prev-stat-value">${ballMasteryMins} min</span>
-                </div>
-                <div class="prev-stat ${wallPassingMins >= 12 ? 'complete' : ''}">
-                    <span class="prev-stat-label">🎯 Wall Passing</span>
-                    <span class="prev-stat-value">${wallPassingMins} min</span>
-                </div>
-                <div class="prev-stat ${jugglingMins >= 10 ? 'complete' : ''}">
-                    <span class="prev-stat-label">🤹 Juggling</span>
-                    <span class="prev-stat-value">${jugglingMins} min</span>
-                </div>
-                ${bonusMins > 0 ? `
-                <div class="prev-stat">
-                    <span class="prev-stat-label">⭐ Bonus</span>
-                    <span class="prev-stat-value">${bonusMins} min</span>
-                </div>
-                ` : ''}
-                <div class="prev-stat">
-                    <span class="prev-stat-label">🏆 Best Juggle Streak</span>
-                    <span class="prev-stat-value">${jugglingStreak}</span>
-                </div>
-            `;
+            // Create simple text summary
+            const parts = [];
+            if (ballMasteryMins > 0) parts.push(`⚽ ${ballMasteryMins} min Ball Mastery`);
+            if (wallPassingMins > 0) parts.push(`🎯 ${wallPassingMins} min Wall Passing`);
+            if (jugglingMins > 0) parts.push(`🤹 ${jugglingMins} min Juggling`);
+            if (bonusMins > 0) parts.push(`⭐ ${bonusMins} min Bonus`);
+            if (jugglingStreak > 0) parts.push(`🏆 ${jugglingStreak} juggling streak`);
             
-            document.getElementById('prevSessionStats').innerHTML = statsHTML;
-            previousSessionCard.style.display = 'block';
+            const detailsHTML = parts.length > 0 ? parts.join(' • ') : 'No details recorded';
+            
+            document.getElementById('lastSessionDetails').innerHTML = detailsHTML;
+            lastSessionSummary.style.display = 'block';
         }
         
         /**
@@ -4524,75 +4330,23 @@
                 
                 editingSessionIndex = sessionIndex;
                 
-                // Calculate ball mastery minutes from structure
-                let ballMasteryMins = 0;
-                if (session.ballMastery && typeof session.ballMastery === 'object') {
-                    Object.values(session.ballMastery).forEach(skill => {
-                        if (skill && skill.completed) {
-                            ballMasteryMins += 2;
-                        }
-                    });
-                }
+                // Get total minutes from session (already calculated and stored)
+                const totalMinutes = session.totalMinutes || 0;
                 
-                // Calculate wall passing minutes from structure
-                let wallPassingMins = 0;
-                if (session.wallPassing && typeof session.wallPassing === 'object') {
-                    Object.values(session.wallPassing).forEach(exercise => {
-                        if (exercise && exercise.completed) {
-                            wallPassingMins += 2;
-                        }
-                    });
-                }
-                
-                // Calculate juggling minutes from structure
-                let jugglingMins = 0;
-                if (session.jugglingExercises && typeof session.jugglingExercises === 'object') {
-                    Object.values(session.jugglingExercises).forEach(exercise => {
-                        if (exercise && exercise.completed) {
-                            jugglingMins += 2;
-                        }
-                    });
-                }
-                // Add freestyle juggling
-                if (session.freestyleJuggling) {
-                    jugglingMins += session.freestyleJuggling;
-                }
-                
-                // Get bonus minutes
-                const bonusMins = session.bonusMinutes || 0;
-                
-                // Get juggling streak
+                // Get juggling streak (supports both old 'jugglingStreak' and new 'juggling' field)
                 const jugglingStreak = session.juggling || session.jugglingStreak || 0;
                 
                 // Populate modal fields
-                document.getElementById('editBallMastery').value = ballMasteryMins;
-                document.getElementById('editWallPassing').value = wallPassingMins;
-                document.getElementById('editJuggling').value = jugglingMins;
-                document.getElementById('editBonus').value = bonusMins;
+                document.getElementById('editTotalMinutes').value = totalMinutes;
                 document.getElementById('editJugglingStreak').value = jugglingStreak;
                 
                 // Update slider displays
-                updateSliderValue('editBallMastery', ballMasteryMins);
-                updateSliderValue('editWallPassing', wallPassingMins);
-                updateSliderValue('editJuggling', jugglingMins);
-                updateSliderValue('editBonus', bonusMins);
+                updateSliderValue('editTotalMinutes', totalMinutes);
                 updateSliderValue('editJugglingStreak', jugglingStreak);
-                
-                // Update total display
-                updateEditTotal();
                 
                 // Show modal
                 document.getElementById('editModal').classList.add('active');
             });
-        }
-        
-        function updateEditTotal() {
-            const ballMastery = parseInt(document.getElementById('editBallMastery').value) || 0;
-            const wallPassing = parseInt(document.getElementById('editWallPassing').value) || 0;
-            const juggling = parseInt(document.getElementById('editJuggling').value) || 0;
-            const bonus = parseInt(document.getElementById('editBonus').value) || 0;
-            const total = ballMastery + wallPassing + juggling + bonus;
-            document.getElementById('editTotalDisplay').textContent = total;
         }
 
         function closeEditModal() {
@@ -4603,13 +4357,13 @@
         function saveEditedSession() {
             if (editingSessionIndex === null) return;
             
-            const ballMasteryMins = parseInt(document.getElementById('editBallMastery').value) || 0;
-            const wallPassingMins = parseInt(document.getElementById('editWallPassing').value) || 0;
-            const jugglingMins = parseInt(document.getElementById('editJuggling').value) || 0;
-            const bonusMins = parseInt(document.getElementById('editBonus').value) || 0;
-            const jugglingStreak = parseInt(document.getElementById('editJugglingStreak').value) || 0;
+            const newTotalMinutes = parseInt(document.getElementById('editTotalMinutes').value);
+            const newJugglingStreak = parseInt(document.getElementById('editJugglingStreak').value);
             
-            const newTotalMinutes = ballMasteryMins + wallPassingMins + jugglingMins + bonusMins;
+            if (newTotalMinutes < 0) {
+                alert('Total minutes must be 0 or greater!');
+                return;
+            }
 
             getPlayers((players) => {
                 const player = players[currentPlayer];
@@ -4619,23 +4373,16 @@
                 const oldMinutes = session.totalMinutes || 0;
                 const minutesDiff = newTotalMinutes - oldMinutes;
                 
-                // Store the edited minutes in a simple format for display
-                // We'll store them as simple minute values rather than trying to reconstruct the complex exercise structure
-                session.editedBallMasteryMins = ballMasteryMins;
-                session.editedWallPassingMins = wallPassingMins;
-                session.editedJugglingMins = jugglingMins;
-                session.bonusMinutes = bonusMins;
-                
-                // Update total minutes
+                // Update session
                 session.totalMinutes = newTotalMinutes;
-                session.juggling = jugglingStreak;
+                session.juggling = newJugglingStreak; // Store in 'juggling' field
                 
                 // Update player totals
                 player.totalMinutes += minutesDiff;
                 
                 // Update max juggling if this is now the highest
-                if (jugglingStreak > player.maxJuggling) {
-                    player.maxJuggling = jugglingStreak;
+                if (newJugglingStreak > player.maxJuggling) {
+                    player.maxJuggling = newJugglingStreak;
                 }
                 
                 // Recalculate max juggling from all sessions to ensure accuracy
