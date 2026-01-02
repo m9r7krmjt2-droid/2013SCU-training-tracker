@@ -2147,11 +2147,12 @@
                                id="juggling-number-input"
                                name="juggling-streak"
                                maxlength="4"
-                               value="0"
+                               value=""
                                placeholder="000"
                                autocomplete="off"
                                data-form-type="other"
                                data-lpignore="true"
+                               onfocus="this.select()"
                                oninput="updateJugglingFromNumber(this.value)"
                                style="width: 100%; max-width: 300px; padding: 20px; background: #000; border: 5px solid var(--bright-yellow); border-radius: 12px; color: #fff; font-size: 4rem; font-family: 'Courier New', 'Monaco', monospace; text-align: center; font-weight: bold; letter-spacing: 8px; text-shadow: 0 0 20px rgba(255, 255, 255, 0.8), 0 0 40px rgba(255, 255, 255, 0.5), 0 0 60px rgba(255, 255, 255, 0.3); box-shadow: 0 0 30px rgba(255, 214, 0, 0.6), 0 0 50px rgba(255, 214, 0, 0.4), 0 8px 40px rgba(77, 166, 255, 0.8), inset 0 0 30px rgba(255, 255, 255, 0.1);">
                         
@@ -2168,7 +2169,7 @@
                 
                 <div style="margin-bottom: 20px;">
                     <label style="display: block; margin-bottom: 10px; color: var(--bright-yellow); font-weight: 600; font-size: 0.95rem;">Extra Training Time: <span id="bonusMinutesValue">0</span> minutes</label>
-                    <input type="range" min="0" max="30" value="0" class="slider" id="slider-bonus" 
+                    <input type="range" min="0" max="60" value="0" class="slider" id="slider-bonus" 
                            oninput="updateBonusMinutes(this.value)" 
                            style="width: 100%; margin-bottom: 8px;">
                     <p style="color: var(--light-blue); opacity: 0.7; font-size: 0.85rem;">Additional training beyond the core exercises</p>
@@ -3220,7 +3221,7 @@
             
             // Reset juggling streak number input
             const jugglingNumberInput = document.getElementById('juggling-number-input');
-            if (jugglingNumberInput) jugglingNumberInput.value = 0;
+            if (jugglingNumberInput) jugglingNumberInput.value = '';
             
             // Reset bonus minutes slider and display
             const bonusSlider = document.getElementById('slider-bonus');
