@@ -2052,6 +2052,18 @@
                         <div class="stat-number" id="maxJuggling">0</div>
                         <div class="stat-label">⚽ Max Juggles</div>
                     </div>
+                    <div class="stat-box">
+                        <div class="stat-number" id="ballMasteryMinutes">0</div>
+                        <div class="stat-label">⚽ Ball Mastery</div>
+                    </div>
+                    <div class="stat-box">
+                        <div class="stat-number" id="wallPassingMinutes">0</div>
+                        <div class="stat-label">🎯 Wall Passing</div>
+                    </div>
+                    <div class="stat-box">
+                        <div class="stat-number" id="jugglingMinutes">0</div>
+                        <div class="stat-label">🤹 Juggling</div>
+                    </div>
                 </div>
                 <div id="weekProgress"></div>
                 <div id="streakMessage"></div>
@@ -3557,6 +3569,18 @@
                     return sum + (session.bonusMinutes || 0);
                 }, 0);
                 document.getElementById('bonusMinutesTotal').textContent = totalBonusMinutes;
+
+                // Calculate cumulative minutes for each category
+                const categoryMinutes = player.sessions.reduce((totals, session) => {
+                    totals.ballMastery += session.ballMasteryMinutes || 0;
+                    totals.wallPassing += session.wallPassingMinutes || 0;
+                    totals.juggling += session.jugglingMinutes || 0;
+                    return totals;
+                }, { ballMastery: 0, wallPassing: 0, juggling: 0 });
+                
+                document.getElementById('ballMasteryMinutes').textContent = categoryMinutes.ballMastery;
+                document.getElementById('wallPassingMinutes').textContent = categoryMinutes.wallPassing;
+                document.getElementById('jugglingMinutes').textContent = categoryMinutes.juggling;
 
                 // Update weekly progress
                 const thisWeekSessions = getThisWeekSessions(player);
