@@ -120,6 +120,35 @@
             animation: fadeIn 0.6s ease-out backwards;
         }
 
+        /* Section Dividers */
+        .section-divider {
+            display: flex;
+            align-items: center;
+            margin: 40px 0 25px 0;
+            gap: 15px;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            padding: 15px 0;
+            background: linear-gradient(180deg, var(--deep-night) 0%, var(--deep-night) 70%, transparent 100%);
+        }
+
+        .section-divider-line {
+            flex: 1;
+            height: 2px;
+            background: linear-gradient(90deg, transparent, var(--light-blue), transparent);
+        }
+
+        .section-divider-title {
+            font-family: 'Bebas Neue', cursive;
+            font-size: 1.6rem;
+            color: var(--bright-yellow);
+            text-transform: uppercase;
+            letter-spacing: 3px;
+            white-space: nowrap;
+            text-shadow: 0 0 20px rgba(255, 214, 0, 0.3);
+        }
+
         @keyframes fadeIn {
             from {
                 opacity: 0;
@@ -1376,10 +1405,15 @@
                 <h2 id="welcomeText" style="margin: 0; font-size: 2.5rem;">Welcome Back!</h2>
             </div>
 
+            <!-- STATS SECTION -->
+            <div class="section-divider">
+                <div class="section-divider-line"></div>
+                <span class="section-divider-title">📊 Your Stats</span>
+                <div class="section-divider-line"></div>
+            </div>
+
             <!-- Stats Card -->
             <div class="card">
-                <h2>📊 Your Stats</h2>
-                
                 <div class="history-item" style="margin-bottom: 20px;">
                     <div>
                         <div class="history-date">Last Session</div>
@@ -1435,6 +1469,13 @@
                 <div class="encouragement-message" id="encouragementMsg">
                     💪 5 more sessions to reach your weekly goal!
                 </div>
+            </div>
+
+            <!-- LOG TODAY SECTION -->
+            <div class="section-divider">
+                <div class="section-divider-line"></div>
+                <span class="section-divider-title">📝 Log Today's Training</span>
+                <div class="section-divider-line"></div>
             </div>
 
             <!-- Ball Mastery -->
@@ -1563,9 +1604,15 @@
                 <div id="recentSessionsList" style="max-height: 180px; overflow-y: auto;"></div>
             </div>
 
+            <!-- LEADERBOARD SECTION -->
+            <div class="section-divider">
+                <div class="section-divider-line"></div>
+                <span class="section-divider-title">🏆 Team Leaderboard</span>
+                <div class="section-divider-line"></div>
+            </div>
+
             <!-- Leaderboard -->
             <div class="card">
-                <h2>📊 This Week's Leaderboard</h2>
                 <p style="color: rgba(255,255,255,0.6); margin-bottom: 20px;">Resets every Monday at 12:00 AM</p>
                 <table class="leaderboard-table">
                     <thead>
