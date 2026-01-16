@@ -1874,20 +1874,32 @@
                 return null;
             }
             
-            // Ensure numeric fields are numbers, not objects
-            player.sessions = typeof player.sessions === 'number' ? player.sessions : 0;
-            player.totalMinutes = typeof player.totalMinutes === 'number' ? player.totalMinutes : 0;
-            player.bonusMinutes = typeof player.bonusMinutes === 'number' ? player.bonusMinutes : 0;
-            player.weekStreak = typeof player.weekStreak === 'number' ? player.weekStreak : 0;
-            player.maxJuggles = typeof player.maxJuggles === 'number' ? player.maxJuggles : 0;
-            player.ballMastery = typeof player.ballMastery === 'number' ? player.ballMastery : 0;
-            player.wallPassing = typeof player.wallPassing === 'number' ? player.wallPassing : 0;
-            player.juggling = typeof player.juggling === 'number' ? player.juggling : 0;
-            
             // Ensure sessionHistory is an array
             if (!Array.isArray(player.sessionHistory)) {
                 player.sessionHistory = [];
             }
+            
+            // Recalculate stats from session history (source of truth)
+            if (player.sessionHistory.length > 0) {
+                player.sessions = player.sessionHistory.length;
+                player.ballMastery = player.sessionHistory.reduce((sum, s) => sum + (s.ballMastery || 0), 0);
+                player.wallPassing = player.sessionHistory.reduce((sum, s) => sum + (s.wallPassing || 0), 0);
+                player.juggling = player.sessionHistory.reduce((sum, s) => sum + (s.juggling || 0), 0);
+                player.bonusMinutes = player.sessionHistory.reduce((sum, s) => sum + (s.bonusMinutes || 0), 0);
+                player.totalMinutes = player.ballMastery + player.wallPassing + player.juggling + player.bonusMinutes;
+                player.maxJuggles = Math.max(...player.sessionHistory.map(s => s.maxJuggles || 0), 0);
+            } else {
+                // No session history - ensure numeric fields are numbers
+                player.sessions = typeof player.sessions === 'number' ? player.sessions : 0;
+                player.totalMinutes = typeof player.totalMinutes === 'number' ? player.totalMinutes : 0;
+                player.bonusMinutes = typeof player.bonusMinutes === 'number' ? player.bonusMinutes : 0;
+                player.maxJuggles = typeof player.maxJuggles === 'number' ? player.maxJuggles : 0;
+                player.ballMastery = typeof player.ballMastery === 'number' ? player.ballMastery : 0;
+                player.wallPassing = typeof player.wallPassing === 'number' ? player.wallPassing : 0;
+                player.juggling = typeof player.juggling === 'number' ? player.juggling : 0;
+            }
+            
+            player.weekStreak = typeof player.weekStreak === 'number' ? player.weekStreak : 0;
             
             // Get number from initialPlayers if missing
             if (!player.number) {
