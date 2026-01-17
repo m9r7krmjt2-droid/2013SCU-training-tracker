@@ -678,6 +678,14 @@
             border-spacing: 0 8px;
         }
 
+        /* Header abbreviation toggle - show full by default */
+        .leaderboard-table .header-abbr {
+            display: none;
+        }
+        .leaderboard-table .header-full {
+            display: inline;
+        }
+
         .leaderboard-table thead th {
             background: var(--navy-blue);
             color: var(--light-blue);
@@ -1137,12 +1145,24 @@
             }
 
             .leaderboard-table {
-                font-size: 0.85rem;
+                font-size: 0.7rem;
             }
 
             .leaderboard-table thead th,
             .leaderboard-table tbody td {
-                padding: 10px 8px;
+                padding: 6px 4px;
+            }
+
+            .leaderboard-table .rank {
+                font-size: 1.1rem;
+            }
+
+            /* Hide full headers, show abbreviated on mobile */
+            .leaderboard-table .header-full {
+                display: none;
+            }
+            .leaderboard-table .header-abbr {
+                display: inline;
             }
 
             .prescribed-box {
@@ -1613,16 +1633,16 @@
 
             <!-- Leaderboard -->
             <div class="card">
-                <p style="color: rgba(255,255,255,0.6); margin-bottom: 20px;">Resets every Monday at 12:00 AM</p>
+                <p style="color: rgba(255,255,255,0.6); margin-bottom: 10px;">Resets every Monday at 12:00 AM</p>
                 <table class="leaderboard-table">
                     <thead>
                         <tr>
-                            <th>Rank</th>
+                            <th><span class="header-full">Rank</span><span class="header-abbr">#</span></th>
                             <th style="text-align: left;">Player</th>
                             <th>Sessions</th>
-                            <th>Minutes</th>
-                            <th>Streak</th>
-                            <th>Max Juggles</th>
+                            <th><span class="header-full">Minutes</span><span class="header-abbr">Min</span></th>
+                            <th><span class="header-full">Streak</span><span class="header-abbr">🔥</span></th>
+                            <th><span class="header-full">Max Juggles</span><span class="header-abbr">⚽</span></th>
                         </tr>
                     </thead>
                     <tbody id="playerLeaderboard"></tbody>
@@ -1685,17 +1705,17 @@
 
             <div class="card">
                 <h2>📊 This Week's Leaderboard</h2>
-                <p style="color: rgba(255,255,255,0.6); margin-bottom: 20px;">Weekly rankings reset every Monday at 12:00 AM</p>
+                <p style="color: rgba(255,255,255,0.6); margin-bottom: 10px;">Weekly rankings reset every Monday at 12:00 AM</p>
                 <table class="leaderboard-table">
                     <thead>
                         <tr>
-                            <th>Rank</th>
+                            <th><span class="header-full">Rank</span><span class="header-abbr">#</span></th>
                             <th style="text-align: left;">Player</th>
                             <th>Sessions</th>
-                            <th>Minutes</th>
-                            <th>Streak</th>
-                            <th>Max Juggles</th>
-                            <th>Last Session</th>
+                            <th><span class="header-full">Minutes</span><span class="header-abbr">Min</span></th>
+                            <th><span class="header-full">Streak</span><span class="header-abbr">🔥</span></th>
+                            <th><span class="header-full">Max Juggles</span><span class="header-abbr">⚽</span></th>
+                            <th><span class="header-full">Last Session</span><span class="header-abbr">Last</span></th>
                         </tr>
                     </thead>
                     <tbody id="coachLeaderboard"></tbody>
@@ -2635,6 +2655,7 @@
                     { id: 'juggle_100', name: '100 Juggles', icon: '🎪', check: (p) => p.maxJuggles >= 100, target: 100, getValue: (p) => p.maxJuggles, milestone: true },
                     { id: 'juggle_200', name: '200 Juggles', icon: '🌟', check: (p) => p.maxJuggles >= 200, target: 200, getValue: (p) => p.maxJuggles, milestone: true },
                     { id: 'juggle_500', name: '500 Juggles', icon: '👑', check: (p) => p.maxJuggles >= 500, target: 500, getValue: (p) => p.maxJuggles, milestone: true },
+                    { id: 'juggle_1000', name: '1000 Juggles', icon: '🏆', check: (p) => p.maxJuggles >= 1000, target: 1000, getValue: (p) => p.maxJuggles, milestone: true },
                 ]
             },
             {
