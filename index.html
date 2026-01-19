@@ -1984,15 +1984,30 @@
         }
 
         // Merge Firebase data with initial roster
+        // Track deleted players (loaded from Firebase)
+        let deletedPlayerNames = [];
+
         function mergeWithInitialRoster(firebasePlayers) {
             const merged = [];
             
             initialPlayers.forEach(initial => {
+                // Skip if player was deleted
+                if (deletedPlayerNames.includes(initial.name)) {
+                    return;
+                }
+                
                 const existing = firebasePlayers.find(p => p && p.name === initial.name);
                 if (existing) {
                     merged.push({...JSON.parse(JSON.stringify(initial)), ...existing});
                 } else {
                     merged.push(JSON.parse(JSON.stringify(initial)));
+                }
+            });
+            
+            // Also add any Firebase players not in initial roster (added by coach)
+            firebasePlayers.forEach(fp => {
+                if (fp && fp.name && !merged.find(m => m.name === fp.name) && !deletedPlayerNames.includes(fp.name)) {
+                    merged.push(fp);
                 }
             });
             
@@ -2009,6 +2024,12 @@
                         updateConnectionStatus(snap.val() === true);
                     });
 
+                    // Load deleted players list FIRST
+                    const deletedSnapshot = await database.ref('deletedPlayers').once('value');
+                    const deletedData = deletedSnapshot.val();
+                    deletedPlayerNames = deletedData ? Object.keys(deletedData) : [];
+                    console.log('Loaded deleted players:', deletedPlayerNames);
+
                     // Load players from Firebase
                     const snapshot = await database.ref('players').once('value');
                     const firebaseData = snapshot.val();
@@ -2022,10 +2043,13 @@
                         // Merge with initial roster
                         players = mergeWithInitialRoster(firebasePlayers);
                     } else {
-                        // Initialize with default roster
-                        players = JSON.parse(JSON.stringify(initialPlayers));
+                        // Initialize with default roster (but filter out deleted players)
+                        players = JSON.parse(JSON.stringify(initialPlayers))
+                            .filter(p => !deletedPlayerNames.includes(p.name));
                         await savePlayersToFirebase();
                     }
+                    
+                    console.log('Final players list:', players.map(p => p.name));
                     
                     players.sort((a, b) => a.name.localeCompare(b.name));
                     
@@ -2129,11 +2153,13 @@
             const playerSelect = document.getElementById('playerName');
             const coachSelect = document.getElementById('coachPlayerSelect');
             
-            // Always use initialPlayers for login dropdown (full roster)
+            // Filter out deleted players from login dropdown
+            const availablePlayers = initialPlayers.filter(p => !deletedPlayerNames.includes(p.name));
+            
             playerSelect.innerHTML = `
                 <option value="">-- Choose Player --</option>
                 <option value="COACH">🔑 COACH VIEW</option>
-                ${initialPlayers.map(p => `<option value="${p.name}">${p.name}</option>`).join('')}
+                ${availablePlayers.map(p => `<option value="${p.name}">${p.name}</option>`).join('')}
             `;
             
             // Coach select shows players with data
@@ -2701,10 +2727,16 @@
                     initialPlayers.splice(initialIdx, 1);
                 }
                 
-                // Remove from Firebase directly
+                // Add to deleted players list (in memory)
+                if (!deletedPlayerNames.includes(name)) {
+                    deletedPlayerNames.push(name);
+                }
+                
+                // Remove from Firebase and add to deleted list
                 if (isFirebaseEnabled) {
                     try {
                         await database.ref('players/' + name).remove();
+                        await database.ref('deletedPlayers/' + name).set(true);
                     } catch (error) {
                         console.error('Firebase delete error:', error);
                     }
@@ -3194,6 +3226,12 @@
         // Listen for real-time updates
         function listenForUpdates() {
             if (isFirebaseEnabled) {
+                // Listen for deleted players changes
+                database.ref('deletedPlayers').on('value', (snapshot) => {
+                    const deletedData = snapshot.val();
+                    deletedPlayerNames = deletedData ? Object.keys(deletedData) : [];
+                });
+                
                 database.ref('players').on('value', (snapshot) => {
                     const firebaseData = snapshot.val();
                     if (firebaseData) {
