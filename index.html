@@ -2312,6 +2312,19 @@
                 .reduce((sum, s) => sum + (s.ballMastery || 0) + (s.wallPassing || 0) + (s.juggling || 0) + (s.bonusMinutes || 0), 0);
         }
 
+        // Get weekly max juggles for a player (only from this week's sessions)
+        function getWeeklyMaxJuggles(player) {
+            if (!player.sessionHistory || player.sessionHistory.length === 0) return 0;
+            const now = new Date();
+            const dayOfWeek = now.getDay() || 7; // Convert Sunday from 0 to 7
+            const startOfWeek = new Date(now);
+            startOfWeek.setDate(now.getDate() - dayOfWeek + 1); // Go back to Monday
+            startOfWeek.setHours(0, 0, 0, 0);
+            const weeklySessions = player.sessionHistory.filter(s => new Date(s.date) >= startOfWeek);
+            if (weeklySessions.length === 0) return 0;
+            return Math.max(...weeklySessions.map(s => s.maxJuggles || 0));
+        }
+
         // Track current leaderboard view
         let playerLeaderboardView = 'weekly';
         let coachLeaderboardView = 'weekly';
@@ -2371,7 +2384,7 @@
                     <td>${isWeekly ? getWeeklySessions(p) : p.sessions}</td>
                     <td>${isWeekly ? getWeeklyMinutes(p) : p.totalMinutes}</td>
                     <td>${p.weekStreak > 0 ? '🔥 ' + p.weekStreak + ' wks' : '0 wks'}</td>
-                    <td>${p.maxJuggles}</td>
+                    <td>${isWeekly ? getWeeklyMaxJuggles(p) : p.maxJuggles}</td>
                 </tr>
             `).join('');
         }
@@ -2388,7 +2401,7 @@
                     <td>${isWeekly ? getWeeklySessions(p) : p.sessions}</td>
                     <td>${isWeekly ? getWeeklyMinutes(p) : p.totalMinutes}</td>
                     <td>${p.weekStreak > 0 ? '🔥 ' + p.weekStreak + ' wks' : '0 wks'}</td>
-                    <td>${p.maxJuggles}</td>
+                    <td>${isWeekly ? getWeeklyMaxJuggles(p) : p.maxJuggles}</td>
                     <td>${formatDate(p.lastSession)}</td>
                 </tr>
             `).join('');
