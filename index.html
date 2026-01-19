@@ -686,6 +686,46 @@
             display: inline;
         }
 
+        /* Leaderboard Tabs */
+        .leaderboard-tabs {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 15px;
+        }
+
+        .leaderboard-tab {
+            flex: 1;
+            padding: 12px 20px;
+            background: rgba(13, 17, 23, 0.6);
+            border: 2px solid rgba(77, 166, 255, 0.2);
+            border-radius: 10px;
+            color: var(--light-blue);
+            font-family: 'Bebas Neue', cursive;
+            font-size: 1.1rem;
+            letter-spacing: 1px;
+            cursor: pointer;
+            transition: all 0.3s;
+            text-align: center;
+        }
+
+        .leaderboard-tab:hover {
+            background: rgba(77, 166, 255, 0.1);
+            border-color: var(--light-blue);
+        }
+
+        .leaderboard-tab.active {
+            background: linear-gradient(135deg, var(--light-blue), #2196f3);
+            border-color: var(--bright-yellow);
+            color: white;
+            box-shadow: 0 0 15px rgba(77, 166, 255, 0.4);
+        }
+
+        .leaderboard-subtitle {
+            color: rgba(255,255,255,0.6);
+            margin-bottom: 15px;
+            font-size: 0.9rem;
+        }
+
         .leaderboard-table thead th {
             background: var(--navy-blue);
             color: var(--light-blue);
@@ -1551,12 +1591,17 @@
             <div class="card">
                 <div class="training-section">
                     <h3>🤹 Juggling</h3>
-                    <div class="prescribed-box">
-                        <div class="prescribed-title">📋 Prescribed Training</div>
-                        <div class="prescribed-content">
-                            <strong>1 minute sets, 2 sets of each:</strong><br>
-                            L Foot • R Foot • Alternating Feet • Thighs • Maximum Streak
+                    <div class="prescribed-box" style="display: flex; justify-content: space-between; align-items: flex-start; gap: 20px;">
+                        <div>
+                            <div class="prescribed-title">📋 Prescribed Training</div>
+                            <div class="prescribed-content">
+                                <strong>1 minute sets, 2 sets of each:</strong><br>
+                                L Foot • R Foot • Alternating Feet • Thighs • Maximum Streak
+                            </div>
                         </div>
+                        <button class="video-btn" onclick="window.open('https://www.youtube.com/watch?v=2fTxcHjdBcs', '_blank')" style="flex-shrink: 0;">
+                            ▶ Video Tutorial
+                        </button>
                     </div>
                     <div class="slider-container">
                         <div class="slider-header">
@@ -1633,7 +1678,11 @@
 
             <!-- Leaderboard -->
             <div class="card">
-                <p style="color: rgba(255,255,255,0.6); margin-bottom: 10px;">Resets every Monday at 12:00 AM</p>
+                <div class="leaderboard-tabs">
+                    <button class="leaderboard-tab active" onclick="switchLeaderboardTab('weekly', 'player')">📅 This Week</button>
+                    <button class="leaderboard-tab" onclick="switchLeaderboardTab('alltime', 'player')">🏆 All Time</button>
+                </div>
+                <p class="leaderboard-subtitle" id="playerLeaderboardSubtitle">Resets every Monday at 12:00 AM</p>
                 <table class="leaderboard-table">
                     <thead>
                         <tr>
@@ -1704,8 +1753,12 @@
             </div>
 
             <div class="card">
-                <h2>📊 This Week's Leaderboard</h2>
-                <p style="color: rgba(255,255,255,0.6); margin-bottom: 10px;">Weekly rankings reset every Monday at 12:00 AM</p>
+                <h2>📊 Team Leaderboard</h2>
+                <div class="leaderboard-tabs">
+                    <button class="leaderboard-tab active" onclick="switchLeaderboardTab('weekly', 'coach')">📅 This Week</button>
+                    <button class="leaderboard-tab" onclick="switchLeaderboardTab('alltime', 'coach')">🏆 All Time</button>
+                </div>
+                <p class="leaderboard-subtitle" id="coachLeaderboardSubtitle">Resets every Monday at 12:00 AM</p>
                 <table class="leaderboard-table">
                     <thead>
                         <tr>
@@ -2220,12 +2273,99 @@
             return player.sessionHistory.filter(s => new Date(s.date) >= startOfWeek).length;
         }
 
-        // Get leaderboard
-        function getLeaderboard() {
-            return [...players].sort((a, b) => {
-                if (b.sessions !== a.sessions) return b.sessions - a.sessions;
-                return b.totalMinutes - a.totalMinutes;
-            });
+        // Get weekly minutes for a player
+        function getWeeklyMinutes(player) {
+            if (!player.sessionHistory || player.sessionHistory.length === 0) return 0;
+            const now = new Date();
+            const dayOfWeek = now.getDay() || 7;
+            const startOfWeek = new Date(now);
+            startOfWeek.setDate(now.getDate() - dayOfWeek + 1);
+            startOfWeek.setHours(0, 0, 0, 0);
+            return player.sessionHistory
+                .filter(s => new Date(s.date) >= startOfWeek)
+                .reduce((sum, s) => sum + (s.ballMastery || 0) + (s.wallPassing || 0) + (s.juggling || 0) + (s.bonusMinutes || 0), 0);
+        }
+
+        // Track current leaderboard view
+        let playerLeaderboardView = 'weekly';
+        let coachLeaderboardView = 'weekly';
+
+        // Get leaderboard (weekly or all-time)
+        function getLeaderboard(view = 'weekly') {
+            if (view === 'alltime') {
+                return [...players].sort((a, b) => {
+                    if (b.sessions !== a.sessions) return b.sessions - a.sessions;
+                    return b.totalMinutes - a.totalMinutes;
+                });
+            } else {
+                // Weekly - sort by this week's sessions and minutes
+                return [...players].sort((a, b) => {
+                    const aWeeklySessions = getWeeklySessions(a);
+                    const bWeeklySessions = getWeeklySessions(b);
+                    if (bWeeklySessions !== aWeeklySessions) return bWeeklySessions - aWeeklySessions;
+                    return getWeeklyMinutes(b) - getWeeklyMinutes(a);
+                });
+            }
+        }
+
+        // Switch leaderboard tab
+        function switchLeaderboardTab(view, type) {
+            if (type === 'player') {
+                playerLeaderboardView = view;
+                // Update tab styles
+                const tabs = document.querySelectorAll('#playerDashboard .leaderboard-tab');
+                tabs.forEach(tab => tab.classList.remove('active'));
+                tabs[view === 'weekly' ? 0 : 1].classList.add('active');
+                // Update subtitle
+                document.getElementById('playerLeaderboardSubtitle').textContent = 
+                    view === 'weekly' ? 'Resets every Monday at 12:00 AM' : 'Total stats since tracking began';
+                updatePlayerLeaderboard();
+            } else {
+                coachLeaderboardView = view;
+                // Update tab styles
+                const tabs = document.querySelectorAll('#coachDashboard .leaderboard-tab');
+                tabs.forEach(tab => tab.classList.remove('active'));
+                tabs[view === 'weekly' ? 0 : 1].classList.add('active');
+                // Update subtitle
+                document.getElementById('coachLeaderboardSubtitle').textContent = 
+                    view === 'weekly' ? 'Resets every Monday at 12:00 AM' : 'Total stats since tracking began';
+                updateCoachLeaderboard();
+            }
+        }
+
+        // Update player leaderboard display
+        function updatePlayerLeaderboard() {
+            const leaderboard = getLeaderboard(playerLeaderboardView);
+            const isWeekly = playerLeaderboardView === 'weekly';
+            
+            document.getElementById('playerLeaderboard').innerHTML = leaderboard.map((p, i) => `
+                <tr class="${p.name === currentPlayer.name ? 'current-user' : ''}">
+                    <td><span class="rank">${i === 0 ? '🥇' : i === 1 ? '🥈' : i === 2 ? '🥉' : i + 1}</span></td>
+                    <td style="text-align: left;">${p.name}</td>
+                    <td>${isWeekly ? getWeeklySessions(p) : p.sessions}</td>
+                    <td>${isWeekly ? getWeeklyMinutes(p) : p.totalMinutes}</td>
+                    <td>${p.weekStreak > 0 ? '🔥 ' + p.weekStreak + ' wks' : '0 wks'}</td>
+                    <td>${p.maxJuggles}</td>
+                </tr>
+            `).join('');
+        }
+
+        // Update coach leaderboard display
+        function updateCoachLeaderboard() {
+            const leaderboard = getLeaderboard(coachLeaderboardView);
+            const isWeekly = coachLeaderboardView === 'weekly';
+            
+            document.getElementById('coachLeaderboard').innerHTML = leaderboard.map((p, i) => `
+                <tr>
+                    <td><span class="rank">${i === 0 ? '🥇' : i === 1 ? '🥈' : i === 2 ? '🥉' : i + 1}</span></td>
+                    <td style="text-align: left;">${p.name} #${p.number}</td>
+                    <td>${isWeekly ? getWeeklySessions(p) : p.sessions}</td>
+                    <td>${isWeekly ? getWeeklyMinutes(p) : p.totalMinutes}</td>
+                    <td>${p.weekStreak > 0 ? '🔥 ' + p.weekStreak + ' wks' : '0 wks'}</td>
+                    <td>${p.maxJuggles}</td>
+                    <td>${formatDate(p.lastSession)}</td>
+                </tr>
+            `).join('');
         }
 
         // Update player dashboard
@@ -2298,17 +2438,7 @@
             }
             
             // Leaderboard
-            const leaderboard = getLeaderboard();
-            document.getElementById('playerLeaderboard').innerHTML = leaderboard.map((p, i) => `
-                <tr class="${p.name === currentPlayer.name ? 'current-user' : ''}">
-                    <td><span class="rank ${i < 3 ? 'rank-' + (i+1) : ''}">${i + 1}</span></td>
-                    <td class="player-name">${p.name}${p.name === currentPlayer.name ? ' (You)' : ''}</td>
-                    <td>${p.sessions}</td>
-                    <td>${p.totalMinutes}</td>
-                    <td>${p.weekStreak > 0 ? '🔥 ' : ''}${p.weekStreak} wks</td>
-                    <td>⚽ ${p.maxJuggles}</td>
-                </tr>
-            `).join('');
+            updatePlayerLeaderboard();
             
             // Update achievement badges
             updateBadges(currentPlayer);
@@ -2481,18 +2611,7 @@
             document.getElementById('coachAvg').textContent = avg;
             
             // Leaderboard
-            const leaderboard = getLeaderboard();
-            document.getElementById('coachLeaderboard').innerHTML = leaderboard.map((p, i) => `
-                <tr>
-                    <td><span class="rank ${i < 3 ? 'rank-' + (i+1) : ''}">${i + 1}</span></td>
-                    <td class="player-name">${p.name}</td>
-                    <td>${p.sessions}</td>
-                    <td>${p.totalMinutes}</td>
-                    <td>${p.weekStreak > 0 ? '🔥 ' : ''}${p.weekStreak} wks</td>
-                    <td>⚽ ${p.maxJuggles}</td>
-                    <td>${formatDate(p.lastSession)}</td>
-                </tr>
-            `).join('');
+            updateCoachLeaderboard();
             
             // Roster
             document.getElementById('rosterList').innerHTML = players.map(p => `
@@ -2573,8 +2692,27 @@
         // Remove player
         async function removePlayer(name) {
             if (confirm(`Remove ${name} from the roster?`)) {
+                // Remove from players array
                 players = players.filter(p => p.name !== name);
-                await saveData();
+                
+                // Remove from initialPlayers so they don't get re-added on merge
+                const initialIdx = initialPlayers.findIndex(p => p.name === name);
+                if (initialIdx !== -1) {
+                    initialPlayers.splice(initialIdx, 1);
+                }
+                
+                // Remove from Firebase directly
+                if (isFirebaseEnabled) {
+                    try {
+                        await database.ref('players/' + name).remove();
+                    } catch (error) {
+                        console.error('Firebase delete error:', error);
+                    }
+                }
+                
+                // Save to localStorage
+                localStorage.setItem('npl-team-players-v2', JSON.stringify(players));
+                
                 populateDropdowns();
                 updateCoachDashboard();
                 showToast('Player removed');
