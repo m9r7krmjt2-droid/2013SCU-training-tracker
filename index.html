@@ -1415,6 +1415,7 @@
                         <option value="COACH">🔑 COACH VIEW</option>
                         <option value="Alexander">Alexander</option>
                         <option value="Arias">Arias</option>
+                        <option value="Carlos">Carlos</option>
                         <option value="Conner">Conner</option>
                         <option value="Cooper">Cooper</option>
                         <option value="Dillon">Dillon</option>
@@ -1900,6 +1901,7 @@
         const initialPlayers = [
             { name: 'Alexander', number: 30, sessions: 0, totalMinutes: 0, bonusMinutes: 0, weekStreak: 0, maxJuggles: 0, ballMastery: 0, wallPassing: 0, juggling: 0, lastSession: null, sessionHistory: [] },
             { name: 'Arias', number: 12, sessions: 0, totalMinutes: 0, bonusMinutes: 0, weekStreak: 0, maxJuggles: 0, ballMastery: 0, wallPassing: 0, juggling: 0, lastSession: null, sessionHistory: [] },
+            { name: 'Carlos', number: 34, sessions: 0, totalMinutes: 0, bonusMinutes: 0, weekStreak: 0, maxJuggles: 0, ballMastery: 0, wallPassing: 0, juggling: 0, lastSession: null, sessionHistory: [] },
             { name: 'Conner', number: 5, sessions: 0, totalMinutes: 0, bonusMinutes: 0, weekStreak: 0, maxJuggles: 0, ballMastery: 0, wallPassing: 0, juggling: 0, lastSession: null, sessionHistory: [] },
             { name: 'Cooper', number: 9, sessions: 0, totalMinutes: 0, bonusMinutes: 0, weekStreak: 0, maxJuggles: 0, ballMastery: 0, wallPassing: 0, juggling: 0, lastSession: null, sessionHistory: [] },
             { name: 'Dillon', number: 7, sessions: 0, totalMinutes: 0, bonusMinutes: 0, weekStreak: 0, maxJuggles: 0, ballMastery: 0, wallPassing: 0, juggling: 0, lastSession: null, sessionHistory: [] },
@@ -1948,8 +1950,17 @@
             }
             
             // Ensure sessionHistory is an array
+            // Firebase can return arrays as objects with numeric keys {"0": {...}, "1": {...}}
+            // We must convert those objects back to arrays instead of wiping them
             if (!Array.isArray(player.sessionHistory)) {
-                player.sessionHistory = [];
+                if (player.sessionHistory && typeof player.sessionHistory === 'object') {
+                    player.sessionHistory = Object.keys(player.sessionHistory)
+                        .sort((a, b) => Number(a) - Number(b))
+                        .map(k => player.sessionHistory[k])
+                        .filter(s => s && typeof s === 'object');
+                } else {
+                    player.sessionHistory = [];
+                }
             }
             
             // Recalculate stats from session history (source of truth)
@@ -2106,12 +2117,52 @@
             }
         }
 
-        // Save a single player to Firebase (doesn't overwrite others)
+        // Save a single player to Firebase (merge-safe: won't overwrite sessions from other devices)
         async function savePlayerToFirebase(player) {
             if (!isFirebaseEnabled) return;
             if (!player || !player.name || player.name === 'undefined') return;
             
             try {
+                // Fetch whatever is currently in Firebase for this player
+                const snapshot = await database.ref('players/' + player.name).once('value');
+                const existing = snapshot.val();
+                
+                if (existing && existing.sessionHistory) {
+                    // Convert Firebase object-format sessionHistory to array if needed
+                    let firebaseSessions = Array.isArray(existing.sessionHistory)
+                        ? existing.sessionHistory
+                        : Object.keys(existing.sessionHistory)
+                            .sort((a, b) => Number(a) - Number(b))
+                            .map(k => existing.sessionHistory[k])
+                            .filter(s => s && typeof s === 'object');
+                    
+                    // Merge: add any Firebase sessions not present locally (identified by date)
+                    const localDates = new Set((player.sessionHistory || []).map(s => s.date));
+                    const missingSessions = firebaseSessions.filter(s => s.date && !localDates.has(s.date));
+                    
+                    if (missingSessions.length > 0) {
+                        // Combine local + missing sessions, sorted by date
+                        player.sessionHistory = [...(player.sessionHistory || []), ...missingSessions]
+                            .sort((a, b) => new Date(a.date) - new Date(b.date));
+                        
+                        // Recalculate totals from merged history
+                        player.sessions = player.sessionHistory.length;
+                        player.ballMastery = player.sessionHistory.reduce((sum, s) => sum + (s.ballMastery || 0), 0);
+                        player.wallPassing = player.sessionHistory.reduce((sum, s) => sum + (s.wallPassing || 0), 0);
+                        player.juggling = player.sessionHistory.reduce((sum, s) => sum + (s.juggling || 0), 0);
+                        player.bonusMinutes = player.sessionHistory.reduce((sum, s) => sum + (s.bonusMinutes || 0), 0);
+                        player.totalMinutes = player.ballMastery + player.wallPassing + player.juggling + player.bonusMinutes;
+                        player.maxJuggles = Math.max(...player.sessionHistory.map(s => s.maxJuggles || 0), 0);
+                        
+                        console.log(`Merged ${missingSessions.length} missing session(s) for ${player.name} from Firebase`);
+                        
+                        // Update local players array and localStorage with the merged data
+                        const idx = players.findIndex(p => p.name === player.name);
+                        if (idx !== -1) players[idx] = player;
+                        localStorage.setItem('npl-team-players-v2', JSON.stringify(players));
+                    }
+                }
+                
                 await database.ref('players/' + player.name).set(player);
             } catch (error) {
                 console.error('Firebase save error:', error);
