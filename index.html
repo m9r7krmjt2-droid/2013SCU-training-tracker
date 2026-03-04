@@ -2204,8 +2204,11 @@
             const playerSelect = document.getElementById('playerName');
             const coachSelect = document.getElementById('coachPlayerSelect');
             
-            // Filter out deleted players from login dropdown
-            const availablePlayers = initialPlayers.filter(p => !deletedPlayerNames.includes(p.name));
+            // Build login dropdown dynamically from the live players array (Firebase)
+            // This ensures coach-added players appear immediately without code changes
+            const availablePlayers = players
+                .filter(p => !deletedPlayerNames.includes(p.name))
+                .sort((a, b) => a.name.localeCompare(b.name));
             
             playerSelect.innerHTML = `
                 <option value="">-- Choose Player --</option>
@@ -2213,10 +2216,10 @@
                 ${availablePlayers.map(p => `<option value="${p.name}">${p.name}</option>`).join('')}
             `;
             
-            // Coach select shows players with data
+            // Coach select shows all players
             coachSelect.innerHTML = `
                 <option value="all">-- All Players --</option>
-                ${players.map(p => `<option value="${p.name}">${p.name}</option>`).join('')}
+                ${availablePlayers.map(p => `<option value="${p.name}">${p.name}</option>`).join('')}
             `;
         }
 
