@@ -185,6 +185,27 @@
         .add-player-row input{margin-bottom:0;flex:1;}
         .add-player-row .btn{width:auto;padding:14px 24px;font-size:.85rem;}
 
+        /* NUDGE */
+        .nudge-inner{display:flex;align-items:center;gap:16px;padding:4px 0;}
+        .nudge-icon{font-size:2.2rem;flex-shrink:0;}
+        .nudge-text-head{font-family:'Black Han Sans',sans-serif;font-size:1rem;letter-spacing:1px;margin-bottom:4px;}
+        .nudge-text-sub{font-size:.82rem;color:var(--muted);line-height:1.5;}
+        .nudge-fire .nudge-text-head{color:var(--accent);}
+        .nudge-warn .nudge-text-head{color:#f59e0b;}
+        .nudge-danger .nudge-text-head{color:var(--accent2);}
+
+        /* PR OVERLAY */
+        .pr-overlay{position:fixed;inset:0;z-index:8000;display:flex;flex-direction:column;align-items:center;justify-content:center;background:rgba(0,0,0,.85);backdrop-filter:blur(6px);opacity:0;pointer-events:none;transition:opacity .4s;}
+        .pr-overlay.active{opacity:1;pointer-events:all;}
+        .pr-burst{text-align:center;animation:prpop .5s cubic-bezier(.175,.885,.32,1.275) forwards;}
+        .pr-emoji{font-size:5rem;display:block;margin-bottom:16px;filter:drop-shadow(0 0 30px rgba(232,255,71,.6));}
+        .pr-label{font-size:.8rem;font-weight:700;letter-spacing:4px;text-transform:uppercase;color:var(--muted);margin-bottom:8px;}
+        .pr-number{font-family:'Black Han Sans',sans-serif;font-size:6rem;color:var(--accent);line-height:1;letter-spacing:4px;text-shadow:0 0 60px rgba(232,255,71,.5);}
+        .pr-word{font-family:'Black Han Sans',sans-serif;font-size:1.8rem;letter-spacing:3px;color:var(--text);margin-top:8px;}
+        .pr-sub{font-size:.9rem;color:var(--muted);margin-top:12px;}
+        .pr-close{margin-top:32px;background:var(--accent);color:var(--ink);border:none;border-radius:100px;font-family:'Black Han Sans',sans-serif;font-size:1rem;letter-spacing:2px;padding:14px 40px;cursor:pointer;box-shadow:0 8px 24px rgba(232,255,71,.3);}
+        @keyframes prpop{from{opacity:0;transform:scale(.5);}to{opacity:1;transform:scale(1);}}
+
         /* TOAST */
         .toast{position:fixed;bottom:24px;left:50%;transform:translateX(-50%) translateY(20px);background:var(--surface);border:1px solid var(--border2);border-radius:100px;padding:14px 28px;font-weight:700;font-size:.9rem;color:var(--text);z-index:9000;white-space:nowrap;box-shadow:0 8px 32px rgba(0,0,0,.5);opacity:0;transition:opacity .3s,transform .3s;}
         .toast.show{opacity:1;transform:translateX(-50%) translateY(0);}
@@ -234,7 +255,7 @@
         <div class="login-logo-block">
             <img src="https://github.com/m9r7krmjt2-droid/SCU-Logo/blob/main/SCU.png?raw=true" alt="SCU">
             <div class="brand-name">SANTA CRUZ UNITED</div>
-            <div class="brand-sub">U14 · National 1 League · 2025–26</div>
+            <div class="brand-sub">U14 · National 1 League · 2026–27</div>
         </div>
         <div class="login-card">
             <h2>PLAYER LOGIN</h2>
@@ -318,6 +339,10 @@
                         <div class="history-details" id="lastDetails">—</div>
                     </div>
                 </div>
+            </div>
+            <!-- NUDGE CARD -->
+            <div class="card" id="nudgeCard" style="display:none">
+                <div class="nudge-inner" id="nudgeInner"></div>
             </div>
             <div class="card">
                 <div class="card-title"><span>🔥</span> WEEK STREAK</div>
@@ -535,6 +560,18 @@
             <button class="chart-close" onclick="closeChart()">✕</button>
         </div>
         <div id="chartBody"><div class="chart-wrap"><canvas id="progChart"></canvas></div></div>
+    </div>
+</div>
+
+<!-- PR OVERLAY -->
+<div class="pr-overlay" id="prOverlay" onclick="closePR()">
+    <div class="pr-burst">
+        <span class="pr-emoji">🎉</span>
+        <div class="pr-label">NEW PERSONAL BEST</div>
+        <div class="pr-number" id="prNumber">0</div>
+        <div class="pr-word">JUGGLES</div>
+        <div class="pr-sub" id="prSub">Keep pushing!</div>
+        <button class="pr-close" onclick="closePR()">LET'S GO! 🔥</button>
     </div>
 </div>
 
@@ -810,6 +847,9 @@ function renderDash(){
     const fs=str===0?'3rem':Math.min(6,3+str*0.3)+'rem';
     document.getElementById('flameBlock').innerHTML=`<div class="flame-emoji" style="font-size:${fs};filter:${str>0?'drop-shadow(0 0 16px rgba(255,107,0,.8))':'grayscale(1) opacity(.3)'}">🔥</div><div class="flame-num">${str}</div><div class="flame-sub">Week Streak</div>${str>0?`<div class="flame-msg">${msg}</div>`:`<div class="flame-msg" style="opacity:.4">Log 3+ sessions/week to start a streak</div>`}`;
 
+    // Nudge
+    renderNudge(p);
+
     // Recent
     if(p.sessionHistory&&p.sessionHistory.length){
         document.getElementById('recentCard').style.display='block';
@@ -1043,10 +1083,48 @@ function checkBadges(op,np){
 }
 
 function checkPR(oldJ,newJ){
-    if(newJ>oldJ&&oldJ>0)setTimeout(()=>{showToast('🎉 NEW PR: '+newJ+' juggles!');launchConfetti();},3200);
+    if(newJ>oldJ&&oldJ>=0){
+        // Show big PR overlay (slight delay so session log toast shows first)
+        setTimeout(()=>showPR(oldJ,newJ),800);
+    }
     const ot=getTier(oldJ),nt=getTier(newJ);
-    if(nt.name!==ot.name)setTimeout(()=>{showToast('🔥 Tier Up! '+nt.name+'!');launchConfetti();},1500);
+    if(nt.name!==ot.name)setTimeout(()=>{showToast('🔥 Tier Up! You reached '+nt.name+'!');launchConfetti();},2000);
 }
+
+// NUDGE
+function renderNudge(p){
+    const card=document.getElementById('nudgeCard');
+    const inner=document.getElementById('nudgeInner');
+    if(!p.lastSession){card.style.display='none';return;}
+    const days=Math.floor((new Date()-new Date(p.lastSession))/86400000);
+    let icon,cls,head,sub;
+    if(days===0){card.style.display='none';return;} // trained today, no nudge needed
+    else if(days===1){icon='💪';cls='nudge-fire';head='TRAINED YESTERDAY';sub='You're consistent — log another session today to keep the streak alive.';}
+    else if(days<=3){icon='⏰';cls='nudge-warn';head=days+' DAYS SINCE LAST SESSION';sub='Your skills are waiting. Even 10 minutes of ball mastery counts.';}
+    else if(days<=6){icon='⚠️';cls='nudge-warn';head=days+' DAYS WITHOUT TRAINING';sub='The gap is growing. Get a ball at your feet today — you'll feel better for it.';}
+    else{icon='🚨';cls='nudge-danger';head=days+' DAYS — TIME TO GET BACK';sub='Champions don't take long breaks. Your teammates are putting in the work right now.';}
+    card.style.display='block';
+    inner.className='nudge-inner '+cls;
+    inner.innerHTML=`<div class="nudge-icon">${icon}</div><div><div class="nudge-text-head">${head}</div><div class="nudge-text-sub">${sub}</div></div>`;
+}
+
+// PR OVERLAY
+function showPR(oldMax, newMax){
+    const diff=newMax-oldMax;
+    document.getElementById('prNumber').textContent=newMax;
+    const subs=[
+        'That's '+diff+' more than your previous best!',
+        'You just rewrote your own record.',
+        'The work is paying off.',
+        'That's what training every day does.',
+        'Unstoppable. Keep going.'
+    ];
+    document.getElementById('prSub').textContent=subs[Math.floor(Math.random()*subs.length)];
+    document.getElementById('prOverlay').classList.add('active');
+    launchConfetti();
+}
+
+function closePR(){document.getElementById('prOverlay').classList.remove('active');}
 
 // TOAST
 function showToast(msg){const el=document.getElementById('toastEl');el.textContent=msg;el.classList.add('show');setTimeout(()=>el.classList.remove('show'),3000);}
