@@ -264,9 +264,9 @@
                 <option value="">— Choose Player —</option>
                 <option value="COACH">🔑 Coach View</option>
             </select>
-            <div id="coachPassWrap" style="display:none">
+            <div id="coachPassWrap">
                 <label class="field-label">Coach Password</label>
-                <input type="password" id="coachPass" placeholder="Password">
+                <input type="password" id="coachPass" placeholder="Enter coach password">
             </div>
             <div id="playerPassWrap" style="display:none">
                 <label class="field-label">Jersey Number</label>
@@ -504,6 +504,12 @@
             </div>
         </div>
         <div id="ctab-roster" style="display:none">
+            <div class="card" id="initCard">
+                <div class="card-title"><span>🔄</span> INITIALIZE ROSTER</div>
+                <p style="font-size:.85rem;color:var(--muted);margin-bottom:16px;">Firebase is empty. Tap below to push all 16 players into the database.</p>
+                <button class="btn" onclick="initRoster()">PUSH ROSTER TO FIREBASE 🚀</button>
+            </div>
+
             <div class="card">
                 <div class="card-title"><span>➕</span> ADD PLAYER</div>
                 <div class="add-player-row">
@@ -734,14 +740,26 @@ function popSelects(){
     const av=players.filter(p=>!deleted.includes(p.name)).sort((a,b)=>a.name.localeCompare(b.name));
     ls.innerHTML=`<option value="">— Choose Player —</option><option value="COACH">🔑 Coach View</option>${av.map(p=>`<option value="${p.name}">${p.name}</option>`).join('')}`;
     cs.innerHTML=`<option value="">— Choose Player —</option>${av.map(p=>`<option value="${p.name}">${p.name}</option>`).join('')}`;
+    // Re-check field visibility after dropdown rebuild
+    checkLoginFields();
 }
 
 // LOGIN
 function handleSelection(){
     const v=document.getElementById('playerSelect').value;
-    document.getElementById('coachPassWrap').style.display=v==='COACH'?'block':'none';
+    // Coach field always visible unless a player is selected
+    document.getElementById('coachPassWrap').style.display=(v===''||v==='COACH')?'block':'none';
     document.getElementById('playerPassWrap').style.display=(v&&v!=='COACH')?'block':'none';
     document.getElementById('loginErr').style.display='none';
+    // Clear both fields on switch
+    document.getElementById('coachPass').value='';
+    document.getElementById('playerPass').value='';
+}
+
+// Run handleSelection once DOM is ready in case Coach is pre-selected
+function checkLoginFields(){
+    const sel=document.getElementById('playerSelect');
+    if(sel) handleSelection();
 }
 
 function doLogin(){
@@ -768,7 +786,7 @@ function doLogin(){
     }else{err.textContent='Incorrect jersey number';err.style.display='block';}
 }
 
-function doLogout(){cur=null;document.getElementById('playerSelect').value='';document.getElementById('coachPass').value='';document.getElementById('playerPass').value='';document.getElementById('coachPassWrap').style.display='none';document.getElementById('playerPassWrap').style.display='none';resetForm();showScreen('loginScreen');}
+function doLogout(){cur=null;document.getElementById('playerSelect').value='';document.getElementById('coachPass').value='';document.getElementById('playerPass').value='';document.getElementById('coachPassWrap').style.display='block';document.getElementById('playerPassWrap').style.display='none';resetForm();showScreen('loginScreen');}
 function showScreen(id){
     document.querySelectorAll('.screen').forEach(s=>{s.classList.remove('active');s.style.display='none';});
     const el=document.getElementById(id);
@@ -945,6 +963,8 @@ function showCoachDetail(){
 }
 
 function renderRoster(){
+    const ic=document.getElementById('initCard');
+    if(ic) ic.style.display=players.length>0?'none':'block';
     document.getElementById('rosterList').innerHTML=players.map(p=>`
         <div class="player-manage-row">
             <div>
@@ -967,6 +987,26 @@ async function setNum(name){
     players[idx].number=val;
     localStorage.setItem(LS_KEY,JSON.stringify(players));
     await saveP(players[idx]);renderRoster();showToast(`#${val} set for ${name.split(' ')[0]} ✅`);
+}
+
+async function initRoster(){
+    if(!fbOk){showToast('Firebase not connected');return;}
+    // Check if already populated
+    const snap=await db.ref('players').once('value');
+    if(snap.val()&&Object.keys(snap.val()).length>2){
+        showToast('Roster already in Firebase!');
+        document.getElementById('initCard').style.display='none';
+        return;
+    }
+    players=JSON.parse(JSON.stringify(INIT));
+    await saveAll();
+    allStreaks();
+    popSelects();
+    renderRoster();
+    renderCoach();
+    document.getElementById('initCard').style.display='none';
+    showToast('✅ All 16 players pushed to Firebase!');
+    launchConfetti();
 }
 
 async function addPlayer(){
